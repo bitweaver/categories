@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.1 2005/06/19 03:58:14 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2 2005/06/19 07:00:29 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.1 2005/06/19 03:58:14 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2 2005/06/19 07:00:29 spiderr Exp $
 //
 
 // Initialization
@@ -58,7 +58,7 @@ if (!isset($_REQUEST["parent_id"])) {
 $smarty->assign('parent_id', $_REQUEST["parent_id"]);
 
 if (isset($_REQUEST["addpage"])) {
-	
+
 	// Here we categorize multiple pages at once
 	foreach ($_REQUEST['class_content'] as $contentId ) {
 		$categlib->categorize_page( $contentId, $_REQUEST["parent_id"] );
@@ -66,61 +66,61 @@ if (isset($_REQUEST["addpage"])) {
 }
 
 if (isset($_REQUEST["addpoll"])) {
-	
+
 	// Here we categorize a poll
 	$categlib->categorize_poll($_REQUEST["poll_id"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["addfaq"])) {
-	
+
 	// Here we categorize a faq
 	$categlib->categorize_faq($_REQUEST["faq_id"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["addtracker"])) {
-	
+
 	// Here we categorize a tracker
 	$categlib->categorize_tracker($_REQUEST["tracker_id"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["addquiz"])) {
-	
+
 	// Here we categorize a quiz
 	$categlib->categorize_quiz($_REQUEST["quiz_id"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["addforum"])) {
-	
+
 	// Here we categorize a forum
 	$categlib->categorize_forum($_REQUEST["forum_id"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["addgallery"])) {
-	
+
 	// Here we categorize an image gallery
 	$categlib->categorize_gallery($_REQUEST["gallery_id"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["addfilegallery"])) {
-	
+
 	// Here we categorize a file gallery
 	$categlib->categorize_file_gallery($_REQUEST["file_gallery_id"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["addarticle"])) {
-	
+
 	// Here we categorize an article
 	$categlib->categorize_article($_REQUEST["article_id"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["addblog"])) {
-	
+
 	// Here we categorize a blog
 	$categlib->categorize_blog($_REQUEST["blog_id"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["adddirectory"])) {
-	
+
 	// Here we categorize a directory category
 	$categlib->categorize_directory($_REQUEST["directoryId"], $_REQUEST["parent_id"]);
 }
@@ -135,17 +135,17 @@ if (isset($_REQUEST["category_id"])) {
 }
 
 if (isset($_REQUEST["removeObject"])) {
-	
+
 	$categlib->remove_object_from_category($_REQUEST["removeObject"], $_REQUEST["parent_id"]);
 }
 
 if (isset($_REQUEST["removeCat"])) {
-	
+
 	$categlib->remove_category($_REQUEST["removeCat"]);
 }
 
 if (isset($_REQUEST["save"]) && isset($_REQUEST["name"]) && strlen($_REQUEST["name"]) > 0) {
-	
+
 	// Save
 	if ($_REQUEST["category_id"]) {
 		$categlib->update_category($_REQUEST["category_id"], $_REQUEST["name"], $_REQUEST["description"], $_REQUEST["parent_id"]);
@@ -289,7 +289,7 @@ if ( $gBitSystem->isPackageActive( 'trackers' ) ) {
 	$smarty->assign_by_ref('trackers', $trackers["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'articles' ) ) {
-	$articles = $artlib->list_articles(0, -1, 'title_asc', $find_objects, '', $user);
+	$articles = $artlib->list_articles(0, -1, 'title_asc', $find_objects, '', $gQueryUser->mUserId);
 	$smarty->assign_by_ref('articles', $articles["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'directory' ) ) {
