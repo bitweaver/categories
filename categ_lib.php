@@ -1,6 +1,6 @@
 <?php
 /** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.1 2005/06/19 03:58:14 bitweaver Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.2 2005/06/20 08:01:15 lsces Exp $
  *
  * \brief Categiries support class
  *
@@ -294,17 +294,17 @@ class CategLib extends BitBase {
 	}
 
 	function get_object_categories($type, $obj_id) {
-		$query = "select tc.`category_id`,tc.`name`,tco.`cat_object_id`,tc.`parent_id` ";
-		$query.= " from `".BIT_DB_PREFIX."tiki_category_objects` tco, `".BIT_DB_PREFIX."tiki_categorized_objects` tto, `".BIT_DB_PREFIX."tiki_categories` tc
-        where tco.`cat_object_id`=tto.`cat_object_id` and tco.`category_id`=tc.`category_id` and `object_type`=? and `object_id`=?";
-		if ( $obj_id )
-		  $bindvars=array($type,(string)$obj_id);
-		else  
-		  $bindvars=array($type,'0');
-		$result = $this->query($query,$bindvars);
 		$ret = array();
-		while ($res = $result->fetchRow()) {
-			$ret[] = $res;
+		if ( $type and $obj_id ) {
+			$query = "select tc.`category_id`,tc.`name`,tco.`cat_object_id`,tc.`parent_id` ";
+			$query.= " from `".BIT_DB_PREFIX."tiki_category_objects` tco, `".BIT_DB_PREFIX."tiki_categorized_objects` tto, `".BIT_DB_PREFIX."tiki_categories` tc
+        	where tco.`cat_object_id`=tto.`cat_object_id` and tco.`category_id`=tc.`category_id` and `object_type`=? and `object_id`=?";
+
+			$bindvars=array($type,(string)$obj_id);
+			$result = $this->query($query,$bindvars);
+			while ($res = $result->fetchRow()) {
+				$ret[] = $res;
+			}
 		}
 		return $ret;
 	}
