@@ -1,6 +1,6 @@
 <?php
 /** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.2 2005/06/20 08:01:15 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3 2005/06/21 13:59:13 spiderr Exp $
  *
  * \brief Categiries support class
  *
@@ -301,9 +301,10 @@ class CategLib extends BitBase {
         	where tco.`cat_object_id`=tto.`cat_object_id` and tco.`category_id`=tc.`category_id` and `object_type`=? and `object_id`=?";
 
 			$bindvars=array($type,(string)$obj_id);
-			$result = $this->query($query,$bindvars);
-			while ($res = $result->fetchRow()) {
-				$ret[] = $res;
+			if( $result = $this->query($query,$bindvars) ) {
+				while ($res = $result->fetchRow()) {
+					$ret[] = $res;
+				}
 			}
 		}
 		return $ret;
