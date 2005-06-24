@@ -1,6 +1,6 @@
 <?php
 /** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3 2005/06/21 13:59:13 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.1 2005/06/24 17:33:05 squareing Exp $
  *
  * \brief Categiries support class
  *
@@ -52,11 +52,11 @@ class CategLib extends BitBase {
 	function get_category_path_admin($category_id) {
 
 		$info = $this->get_category($category_id);
-		$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $info["category_id"] . '">' . htmlentities($info["name"]) . '</a>';
+		$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $info["category_id"] . '">' . ($info["name"]) . '</a>';
 
 		while ($info["parent_id"] != 0) {
 			$info = $this->get_category($info["parent_id"]);
-			$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $info["category_id"] . '">' . htmlentities($info["name"]) . '</a>' . ' &raquo; ' . $path;
+			$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $info["category_id"] . '">' . ($info["name"]) . '</a>' . ' &raquo; ' . $path;
 		}
 
 		return $path;
@@ -65,11 +65,11 @@ class CategLib extends BitBase {
 	function get_category_path_browse($category_id) {
 
 		$info = $this->get_category($category_id);
-		$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $info["category_id"] . '">' . htmlentities($info["name"]) . '</a>';
+		$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $info["category_id"] . '">' . ($info["name"]) . '</a>';
 
 		while ($info["parent_id"] != 0) {
 			$info = $this->get_category($info["parent_id"]);
-			$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $info["category_id"] . '">' . htmlentities($info["name"]) . '</a>' . ' &raquo; ' . $path;
+			$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $info["category_id"] . '">' . ($info["name"]) . '</a>' . ' &raquo; ' . $path;
 		}
 
 		return $path;
