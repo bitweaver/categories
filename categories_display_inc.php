@@ -1,4 +1,10 @@
 <?php
+/** 
+ * Categories support function
+ *
+ * @package  categories
+ * @subpackage  functions
+ */
 
 global $categlib;
 

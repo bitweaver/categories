@@ -1,12 +1,18 @@
 <?php
-/** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.1 2005/06/24 17:33:05 squareing Exp $
+/** 
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.2 2005/06/27 10:08:39 lsces Exp $
  *
- * \brief Categiries support class
+ * Categories support class
  *
+ * @package  categories
  */
 
-
+/** 
+ * Categories support class
+ *
+ * @package  categories
+ * @subpackage  CategLib
+ */
 class CategLib extends BitBase {
 
 	function CategLib() {

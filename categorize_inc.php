@@ -1,10 +1,19 @@
 <?php
+/** 
+ * Categories support function
+ *
+ * @package  categories
+ * @subpackage  functions
+ */
 
-// $Header: /cvsroot/bitweaver/_bit_categories/Attic/categorize_inc.php,v 1.1 2005/06/19 03:58:14 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/Attic/categorize_inc.php,v 1.1.1.1.2.1 2005/06/27 10:08:39 lsces Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
+/**
+ * required setup
+ */
 include_once( CATEGORIES_PKG_PATH.'categ_lib.php');
 
 global $categlib, $cat_obj_type, $cat_objid, $cat_content_id;
