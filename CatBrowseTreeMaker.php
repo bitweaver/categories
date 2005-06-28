@@ -1,16 +1,23 @@
 <?php
 /** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/CatBrowseTreeMaker.php,v 1.1 2005/06/19 03:58:14 bitweaver Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/CatBrowseTreeMaker.php,v 1.2 2005/06/28 07:45:40 spiderr Exp $
  *
- * \brief Categories browse tree
+ * Categories browse tree
  *
- * \author zaufi@sendmail.ru
- *
+ * @author zaufi@sendmail.ru
+ * @package categories
+ */
+
+/**
+ * required setup
  */
 require_once( UTIL_PKG_PATH.'tree.php' );
 
 /**
- * \brief Class to render categories browse tree
+ * Class to render categories browse tree
+ *
+ * @package  categories
+ * @subpackage  CatBrowseTreeMaker
  */
 class CatBrowseTreeMaker extends TreeMaker {
 	/// Collect javascript cookie set code (internaly used after make_tree() method)
