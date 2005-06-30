@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2 2005/06/19 07:00:29 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2.2.1 2005/06/30 00:40:24 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2 2005/06/19 07:00:29 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2.2.1 2005/06/30 00:40:24 spiderr Exp $
 //
 
 // Initialization
@@ -289,7 +289,7 @@ if ( $gBitSystem->isPackageActive( 'trackers' ) ) {
 	$smarty->assign_by_ref('trackers', $trackers["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'articles' ) ) {
-	$articles = $artlib->list_articles(0, -1, 'title_asc', $find_objects, '', $gQueryUser->mUserId);
+	$articles = $artlib->list_articles(0, -1, 'title_asc', $find_objects);
 	$smarty->assign_by_ref('articles', $articles["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'directory' ) ) {
