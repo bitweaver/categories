@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.2 2005/06/27 10:08:39 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.3 2005/06/30 22:33:52 spiderr Exp $
  *
  * Categories support class
  *
@@ -81,15 +81,22 @@ class CategLib extends BitBase {
 		return $path;
 	}
 
-	function get_category($category_id) {
-		$query = "select * from `".BIT_DB_PREFIX."tiki_categories` where `category_id`=?";
+	function get_category( $pCategoryId ) {
+		static $catCache;
 
-		$result = $this->query($query,array((int) $category_id));
+		if( empty( $catCache[$pCategoryId] ) ) {
+			$query = "select * from `".BIT_DB_PREFIX."tiki_categories` where `category_id`=?";
 
-		if (!$result->numRows())
-			return false;
+			$result = $this->query($query,array((int) $pCategoryId));
 
-		$res = $result->fetchRow();
+			if (!$result->numRows())
+				return false;
+
+			$res = $result->fetchRow();
+			$catCache[$pCategoryId] = $res;
+		} else {
+			$res = $catCache[$pCategoryId];
+		}
 		return $res;
 	}
 
