@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.3 2005/06/30 22:33:52 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.4 2005/06/30 23:10:24 spiderr Exp $
  *
  * Categories support class
  *
@@ -787,19 +787,20 @@ class CategLib extends BitBase {
 	function get_all_categories_ext() {
 		$ret = array();
 
-		$query = "select * from `".BIT_DB_PREFIX."tiki_categories` order by `name`";
+		$query = "SELECT tc.`category_id`, COUNT(`cat_object_id`) AS `children`,`name`,`parent_id`,`description`,`hits` 
+				  FROM `tiki_categories` tc LEFT OUTER JOIN tiki_category_objects tco ON(tc.category_id=tco.category_id) 
+				  GROUP BY `category_id`,`parent_id`,`name`,`description`,`hits` order by `name`";
 		$result = $this->query($query,array());
 
 		while ($res = $result->fetchRow()) {
 			$id = $res["category_id"];
 
-			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
-			$res["children"] = $this->getOne($query,array($id));
+//			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
+//			$res["children"] = $this->getOne($query,array($id));
 			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` where `category_id`=?";
 			$res["objects"] = $this->getOne($query,array($id));
 			$ret[] = $res;
 		}
-
 		return $ret;
 	}
 
