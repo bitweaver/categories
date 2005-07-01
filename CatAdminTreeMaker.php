@@ -1,6 +1,6 @@
 <?php
 /** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/CatAdminTreeMaker.php,v 1.1.1.1.2.1 2005/06/27 10:08:39 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/CatAdminTreeMaker.php,v 1.1.1.1.2.2 2005/07/01 18:25:53 spiderr Exp $
  *
  * Categories browse tree
  *
@@ -58,7 +58,7 @@ class CatAdminTreeMaker extends TreeMaker {
 	// Unsymmetrical calls is not important :)
 	//
 	function node_start_code($nodeinfo) {
-		return '<div class="treenode"><table width=100%><tr>';
+		return '<li class="treenode">';
 	}
 
 	//
@@ -66,32 +66,34 @@ class CatAdminTreeMaker extends TreeMaker {
 		$this->itemID = $this->prefix . 'id' . $nodeinfo["id"];
 
 		$this->jsscriptblock .= "setFlipWithSign('" . $this->itemID . "'); ";
-		return '<td width="5%"><a class="catname" title="' . tra( 'child categories'). ': ' . $nodeinfo["children"] . ', ' . tra('objects in category'). ': ' . $nodeinfo["objects"] . '" id="flipper' . $this->itemID . '" href="javascript:flipWithSign(\'' . $this->itemID . '\')">[+]</a></td>';
+		return '<a class="catname" title="' . tra( 'child categories'). ': ' . $nodeinfo["children"] . ', ' . tra('objects in category'). ': ' . $nodeinfo["objects"] . '" id="flipper' . $this->itemID . '" href="javascript:flipWithSign(\'' . $this->itemID . '\')">[+]</a>';
 	}
 
 	//
 	function node_data_start_code($nodeinfo) {
-		return '<td>';
+		return $nodeinfo["edit"] . $nodeinfo["remove"] ;
 	}
 
 	//
 	function node_data_end_code($nodeinfo) {
-		return '</td><td width=10% align="right">' . $nodeinfo["edit"] . $nodeinfo["remove"] . '</td></tr></table></div>';
+		if( !empty( $nodeinfo['objects'] ) ) {
+			return '('.$nodeinfo['objects'].')';
+		}
 	}
 
 	//
 	function node_child_start_code($nodeinfo) {
-		return '<div class="tree" id="' . $this->itemID . '" style="display: none;">';
+		return "\n".'<ul class="tree" id="' . $this->itemID . '" style="display: none;">'."\n";
 	}
 
 	//
 	function node_child_end_code($nodeinfo) {
-		return '</div>';
+		return '</ul>';
 	}
 
 	//
 	function node_end_code($nodeinfo) {
-		return '';
+		return "</li>\n";
 	}
 }
 

@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2.2.1 2005/06/30 00:40:24 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2.2.2 2005/07/01 18:25:53 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2.2.1 2005/06/30 00:40:24 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.2.2.2 2005/07/01 18:25:53 spiderr Exp $
 //
 
 // Initialization
@@ -181,12 +181,14 @@ foreach ($ctall as $c) {
 	$tree_nodes[] = array(
 		"id" => $c["category_id"],
 		"parent" => $c["parent_id"],
-		"data" => '<a class="catname" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $c["category_id"] . '" title="' . tra( 'Child categories'). ':' . $c["children"] . ' ' . tra( 'Objects in category'). ':' . $c["objects"] . '">' . $c["name"] . '</a>',
+		"data" => '<a class="catname" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $c["category_id"] . '" title="' . tra( 'Objects in category'). ':' . $c["objects"] . '">' . $c["name"] . '</a>',
+//		"data" => '<a class="catname" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $c["category_id"] . '" title="' . tra( 'Child categories'). ':' . $c["children"] . ' ' . tra( 'Objects in category'). ':' . $c["objects"] . '">' . $c["name"] . '</a>',
 		"edit" =>
-			'<a href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $c["parent_id"] . '&amp;category_id=' . $c["category_id"] . '#editcreate" title="' . tra( 'edit'). '"><img class="icon" src="'.LIBERTY_PKG_URL.'icons/edit.gif" /></a>',
+			'<a class="floaticon" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $c["parent_id"] . '&amp;category_id=' . $c["category_id"] . '#editcreate" title="' . tra( 'edit'). '"><img class="icon" src="'.LIBERTY_PKG_URL.'icons/edit.gif" /></a>',
 		"remove" =>
-			'<a href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $c["parent_id"] . '&amp;removeCat=' . $c["category_id"] . '" title="' . tra( 'remove'). '"><img class="icon" src="'.LIBERTY_PKG_URL.'icons/delete.png" /></a>',
-		"children" => $c["children"],
+			'<a class="floaticon" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $c["parent_id"] . '&amp;removeCat=' . $c["category_id"] . '" title="' . tra( 'remove'). '"><img class="icon" src="'.LIBERTY_PKG_URL.'icons/delete.png" /></a>',
+		"children" => 0,
+//		"children" => $c["children"],
 		"objects" => $c["objects"]
 	);
 }
