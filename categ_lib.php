@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.8 2005/07/01 21:12:12 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.9 2005/07/01 21:40:34 spiderr Exp $
  *
  * Categories support class
  *
@@ -47,6 +47,7 @@ class CategLib extends BitBase {
 				$res["incat"] = 'n';
 			}
 			$categpath = $this->get_category_path( $res );
+			$res['root_category_id'] = $categpath['root_category_id'];
 			$res["categpath"] = $categpath['linked'];
 			$res["categpath_static"] = $categpath['static'];
 			$ret[$categpath['linked']] = $res;
@@ -347,6 +348,7 @@ class CategLib extends BitBase {
 				$path['linked'] = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $cat["category_id"] . '">' . $cat["name"] . '</a> &raquo; ' . $path['linked'];
 				$path['static'] = $cat["name"] . ' &raquo; ' . $path['static'];
 			}
+			$catpath['root_category_id'] = $cat['category_id'];
 			$catpath['linked'] .= $path['linked'] . '</span> , ';
 			$catpath['static'] .= $path['static'].', ';
 		}
