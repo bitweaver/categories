@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.6 2005/07/01 18:33:40 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.7 2005/07/01 19:00:16 spiderr Exp $
  *
  * Categories support class
  *
@@ -46,14 +46,13 @@ class CategLib extends BitBase {
 			} else {
 				$res["incat"] = 'n';
 			}
-
-//			$categpath = $this->get_category_path( $res );
-//			$res["categpath"] = $categpath;
+			$categpath = $this->get_category_path( $res );
+			$res["categpath"] = $categpath;
 			$ret[$categpath] = $res;
 		}
 		ksort($ret);
 		$retval = array();
-    $retval["data"] = array_values($ret);
+	    $retval["data"] = array_values($ret);
 		$retval["cant"] = $cant;
 		return $retval;
 	}
