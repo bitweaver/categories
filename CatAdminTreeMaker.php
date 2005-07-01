@@ -1,6 +1,6 @@
 <?php
 /** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/CatAdminTreeMaker.php,v 1.1.1.1.2.2 2005/07/01 18:25:53 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/CatAdminTreeMaker.php,v 1.1.1.1.2.3 2005/07/01 18:33:40 spiderr Exp $
  *
  * Categories browse tree
  *
@@ -37,7 +37,7 @@ class CatAdminTreeMaker extends TreeMaker {
 	function make_tree($rootid, $ar) {
 		global $debugger;
 
-		$r = $this->make_tree_r($rootid, $ar);
+		$r = '<ul class="tree">'.$this->make_tree_r($rootid, $ar).'</ul>';
 		// $debugger->var_dump('$r');
 		// return tree with java script block that opens the nodes as remembered in cookies
 		return $r . "<script language='Javascript' type='text/javascript'> " . $this->jsscriptblock . " </script>\n";
