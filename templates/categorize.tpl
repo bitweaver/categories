@@ -1,5 +1,5 @@
 {strip}
-{if $gBitSystemPrefs.package_categories eq 'y' and (count($categories) gt 0 or $gBitUser->hasPermission( 'bit_p_admin_categories' ))}
+{if $gBitSystem->isPackageActive( 'categories' ) and (count($categories) gt 0 or $gBitUser->hasPermission( 'bit_p_admin_categories' ))}
 	<div class="row">
 		{formlabel label="Pick Categories"}
 		{forminput}

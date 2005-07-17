@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.1 2005/06/19 03:58:14 bitweaver Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.2 2005/07/17 17:36:02 squareing Exp $ *}
 <div class="floaticon">{bithelp}</div>
 <div class="admin category">
 <div class="header">
@@ -74,77 +74,77 @@
 <form action="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php" method="post">
 <input type="hidden" name="parent_id" value="{$parent_id|escape}" />
   <table class="panel">
-  {if $gBitSystemPrefs.feature_wiki eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_wiki' )}
     <tr>
       <td>{tr}page{/tr}:</td>
       <td><select name="class_content[]" multiple="multiple" size="5">{section name=ix loop=$pages}<option value="{$pages[ix].content_id}">{$pages[ix].title|escape|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addpage" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_articles eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_articles' )}
     <tr>
       <td>{tr}article{/tr}:</td>
       <td><select name="article_id">{section name=ix loop=$articles}<option value="{$articles[ix].article_id|escape}">{$articles[ix].title|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addarticle" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_blogs eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_blogs' )}
     <tr>
       <td>{tr}blog{/tr}:</td>
       <td><select name="blog_id">{section name=ix loop=$blogs}<option value="{$blogs[ix].blog_id|escape}">{$blogs[ix].title|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addblog" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_directory eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_directory' )}
     <tr>
       <td>{tr}directory{/tr}:</td>
       <td><select name="directoryId">{section name=ix loop=$directories}<option value="{$directories[ix].category_id|escape}">{$directories[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="adddirectory" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_galleries eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_galleries' )}
     <tr>
       <td>{tr}image gal{/tr}:</td>
       <td><select name="gallery_id">{section name=ix loop=$galleries}<option value="{$galleries[ix].gallery_id|escape}">{$galleries[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addgallery" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_file_galleries eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_file_galleries' )}
     <tr>
       <td>{tr}file gal{/tr}:</td>
       <td><select name="file_gallery_id">{section name=ix loop=$file_galleries}<option value="{$file_galleries[ix].gallery_id|escape}">{$file_galleries[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addfilegallery" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_tiki_forums eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_tiki_forums' )}
     <tr>
       <td>{tr}forum{/tr}:</td>
       <td><select name="forum_id">{section name=ix loop=$forums}<option value="{$forums[ix].forum_id|escape}">{$forums[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addforum" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_polls eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_polls' )}
     <tr>
       <td>{tr}poll{/tr}:</td>
       <td><select name="poll_id">{section name=ix loop=$polls}<option value="{$polls[ix].poll_id|escape}">{$polls[ix].title|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addpoll" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_faqs eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_faqs' )}
     <tr>
       <td>{tr}faq{/tr}:</td>
       <td><select name="faq_id">{section name=ix loop=$faqs}<option value="{$faqs[ix].faq_id|escape}">{$faqs[ix].title|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addfaq" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_trackers eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_trackers' )}
    <tr>
       <td>{tr}tracker{/tr}:</td>
       <td><select name="tracker_id">{section name=ix loop=$trackers}<option value="{$trackers[ix].tracker_id|escape}">{$trackers[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addtracker" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
-  {if $gBitSystemPrefs.feature_quizzes eq 'y'}
+  {if $gBitSystem->isFeatureActive( 'feature_quizzes' )}
     <tr>
       <td>{tr}quiz{/tr}:</td>
       <td><select name="quiz_id">{section name=ix loop=$quizzes}<option value="{$quizzes[ix].quiz_id|escape}">{$quizzes[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>

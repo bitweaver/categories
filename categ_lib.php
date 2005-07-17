@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.4 2005/06/28 07:45:40 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.5 2005/07/17 17:36:01 squareing Exp $
  *
  * Categories support class
  *
@@ -19,15 +19,18 @@ class CategLib extends BitBase {
 		BitBase::BitBase();
 	}
 
-	function list_all_categories($offset, $maxRecords, $sort_mode = 'name_asc', $find, $type, $objid) {
+	function list_all_categories($offset, $maxRecords, $sort_mode = 'name_asc', $find, $type, $objid, $pRootCategoryId=NULL ) {
 		$cats = $this->get_object_categories($type, $objid);
 
 		if ($find) {
 			$findesc = '%' . strtoupper( $find ) . '%';
 			$bindvals=array($findesc,$findesc);
 			$mid = " where (UPPER(`name`) like ? or UPPER(`description`) like ?)";
+		} elseif( $pRootCategoryId ) {
+			$mid = " where `parent_id`=? ";
+			$bindvals = $pRootCategoryId;
 		} else {
-      $bindvals=array();
+			$bindvals=array();
 			$mid = "";
 		}
 
@@ -43,14 +46,15 @@ class CategLib extends BitBase {
 			} else {
 				$res["incat"] = 'n';
 			}
-
-      $categpath = $this->get_category_path($res["category_id"]);
-			$res["categpath"] = $categpath;
-			$ret["$categpath"] = $res;
+			$categpath = $this->get_category_path( $res );
+			$res['root_category_id'] = $categpath['root_category_id'];
+			$res["categpath"] = $categpath['linked'];
+			$res["categpath_static"] = $categpath['static'];
+			$ret[$categpath['linked']] = $res;
 		}
 		ksort($ret);
 		$retval = array();
-    $retval["data"] = array_values($ret);
+	    $retval["data"] = array_values($ret);
 		$retval["cant"] = $cant;
 		return $retval;
 	}
@@ -81,15 +85,22 @@ class CategLib extends BitBase {
 		return $path;
 	}
 
-	function get_category($category_id) {
-		$query = "select * from `".BIT_DB_PREFIX."tiki_categories` where `category_id`=?";
+	function get_category( $pCategoryId ) {
+		static $catCache;
 
-		$result = $this->query($query,array((int) $category_id));
+		if( empty( $catCache[$pCategoryId] ) ) {
+			$query = "select * from `".BIT_DB_PREFIX."tiki_categories` where `category_id`=?";
 
-		if (!$result->numRows())
-			return false;
+			$result = $this->query($query,array((int) $pCategoryId));
 
-		$res = $result->fetchRow();
+			if (!$result->numRows())
+				return false;
+
+			$res = $result->fetchRow();
+			$catCache[$pCategoryId] = $res;
+		} else {
+			$res = $catCache[$pCategoryId];
+		}
 		return $res;
 	}
 
@@ -319,35 +330,32 @@ class CategLib extends BitBase {
 	/*shared*/
 	// \todo remove hardcoded html from get_category_path()
 	function get_category_path($cats) {
-		if( !is_array( $cats ) ) {
+		if( is_numeric( $cats ) ) {
+			$cats = array( array( $cats ) );
+		} elseif( !is_array( current( $cats ) ) ) {
 			$cats = array( $cats );
 		}
-		$catpath = '';
+		$catpath['linked'] = '';
+		$catpath['static'] = '';
+
 		foreach ($cats as $cat) {
-			$catpath .= '<span class="categpath">';
+			$catpath['linked'] .= '<span class="categpath">';
 			$path = '';
-			$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $cat["category_id"] . '">' . $cat["name"] . '</a>';
-			while ($cat["parent_id"] != 0) {
+			$path['linked'] = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $cat["category_id"] . '">' . $cat["name"] . '</a>';
+			$path['static'] = $cat["name"];
+			while( !empty( $cat["parent_id"] ) ) {
 				$cat = $this->get_category( $cat["parent_id"] );
-				$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $cat["category_id"] . '">' . $cat["name"] . '</a> &raquo; ' . $path;
+				$path['linked'] = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $cat["category_id"] . '">' . $cat["name"] . '</a> &raquo; ' . $path['linked'];
+				$path['static'] = $cat["name"] . ' &raquo; ' . $path['static'];
 			}
-			$catpath .= $path . '</span> , ';
+			$catpath['root_category_id'] = $cat['category_id'];
+			$catpath['linked'] .= $path['linked'] . '</span> , ';
+			$catpath['static'] .= $path['static'].', ';
 		}
-		$catpath = rtrim( $catpath, ', ' );
+		$catpath['linked'] = rtrim( $catpath['linked'], ', ' );
+		$catpath['static'] = rtrim( $catpath['static'], ', ' );
 		return $catpath;
 	}
-/*
-  function get_category_path($category_id) {
-		$back = '';
-		$info = $this->get_category($category_id);
-		$back = $info["name"];
-		while ($info["parent_id"] != 0) {
-			$info = $this->get_category($info["parent_id"]);
-			$back = $info["name"]."::$back";
-		}
-		return $back;
-	}
-*/
 
 	/*shared*/
 	// function enhancing php in_array() function
@@ -780,19 +788,20 @@ class CategLib extends BitBase {
 	function get_all_categories_ext() {
 		$ret = array();
 
-		$query = "select * from `".BIT_DB_PREFIX."tiki_categories` order by `name`";
+		$query = "SELECT tc.`category_id`, COUNT(`cat_object_id`) AS `objects`,`name`,`parent_id`,`description`,`hits` 
+				  FROM `".BIT_DB_PREFIX."tiki_categories` tc LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_category_objects` tco ON(tc.category_id=tco.category_id) 
+				  GROUP BY tc.`category_id`,`parent_id`,`name`,`description`,`hits` order by `name`";
 		$result = $this->query($query,array());
 
 		while ($res = $result->fetchRow()) {
 			$id = $res["category_id"];
 
-			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
-			$res["children"] = $this->getOne($query,array($id));
-			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` where `category_id`=?";
-			$res["objects"] = $this->getOne($query,array($id));
+//			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
+//			$res["children"] = $this->getOne($query,array($id));
+//			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` where `category_id`=?";
+//			$res["objects"] = $this->getOne($query,array($id));
 			$ret[] = $res;
 		}
-
 		return $ret;
 	}
 
