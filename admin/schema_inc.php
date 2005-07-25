@@ -64,4 +64,14 @@ $gBitInstaller->registerUserPermissions( CATEGORIES_PKG_NAME, array(
 	array('bit_p_view_categories', 'Can browse categories', 'registered', 'tiki')
 ) );
 
+$schemaDefault = array();
+global $gBitDbType;
+if ( $gBitDbType == 'mssql' ) {
+	$schemaDefault[] = "SET IDENTITY_INSERT `".BIT_DB_PREFIX."tiki_categories` ON";
+}
+
+$schemaDefault[] = "INSERT INTO `".BIT_DB_PREFIX."tiki_categories` (`category_id`, `name`, `description`, `parent_id`, `hits` ) VALUES ( 0, '".tra("TOP")."', '', 0, 0 )";
+
+$gBitInstaller->registerSchemaDefault( CATEGORIES_PKG_NAME, $schemaDefault );
+
 ?>
