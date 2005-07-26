@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.9 2005/07/01 21:40:34 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.10 2005/07/26 15:50:03 drewslater Exp $
  *
  * Categories support class
  *
@@ -379,7 +379,7 @@ class CategLib extends BitBase {
 
 	/*shared*/
 	function get_categoryobjects($cats) {
-		global $gBitSystem, $smarty;
+		global $gBitSystem, $gBitSmarty;
 
 		$typetitles = array();
 		if( $gBitSystem->isPackageActive( 'articles' ) ) {
@@ -459,9 +459,9 @@ class CategLib extends BitBase {
 			}
 
 			// split mode: appending onto $out each time
-			$smarty->assign("title", $title);
-			$smarty->assign("listcat", $listcat);
-			$out .= $smarty->fetch("bitpackage:wiki/simple_plugin.tpl");
+			$gBitSmarty->assign("title", $title);
+			$gBitSmarty->assign("listcat", $listcat);
+			$out .= $gBitSmarty->fetch("bitpackage:wiki/simple_plugin.tpl");
 			// reset array for next loop
 			$listcat = array();
 			// reset title
@@ -470,9 +470,9 @@ class CategLib extends BitBase {
 		}
 
 		// non-split mode
-		//	$smarty -> assign("title", $title);
-		//	$smarty -> assign("listcat", $listcat);
-		//	$out = $smarty -> fetch("bitpackage:wiki/simple_plugin.tpl");
+		//	$gBitSmarty -> assign("title", $title);
+		//	$gBitSmarty -> assign("listcat", $listcat);
+		//	$out = $gBitSmarty -> fetch("bitpackage:wiki/simple_plugin.tpl");
 		return $out;
 	}
 

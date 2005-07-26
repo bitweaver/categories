@@ -15,12 +15,12 @@ if( $gBitSystem->isPackageActive( 'categories' ) ) {
 	if ( $cats ) {
 		if( $gBitSystem->isFeatureActive( 'feature_categorypath' ) ) {
 			$display_catpath = $categlib->get_category_path($cats);
-			$smarty->assign('display_catpath',$display_catpath);
+			$gBitSmarty->assign('display_catpath',$display_catpath);
 		}
 		// Display current category objects or not (like {category()})
 		if( $gBitSystem->isFeatureActive( 'feature_categoryobjects' ) ) {
 			$display_catobjects = $categlib->get_categoryobjects( $cats );
-			$smarty->assign( 'display_catobjects',$display_catobjects );
+			$gBitSmarty->assign( 'display_catobjects',$display_catobjects );
 		}
 	}
 }

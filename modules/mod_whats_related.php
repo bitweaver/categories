@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_categories/modules/mod_whats_related.php,v 1.1.1.1.2.1 2005/06/27 10:08:42 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_categories/modules/mod_whats_related.php,v 1.1.1.1.2.2 2005/07/26 15:50:04 drewslater Exp $
  * @package categories
  * @subpackage modules
  */
@@ -12,7 +12,7 @@ require_once( CATEGORIES_PKG_PATH.'categ_lib.php');
 
 //test
 //$WhatsRelated=$categlib->get_link_related($_SERVER["REQUEST_URI"]);
-$smarty->assign_by_ref('WhatsRelated', $WhatsRelated);
+$gBitSmarty->assign_by_ref('WhatsRelated', $WhatsRelated);
 
 
 ?>
