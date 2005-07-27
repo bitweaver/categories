@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.10 2005/07/26 15:50:03 drewslater Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.11 2005/07/27 08:51:18 squareing Exp $
  *
  * Categories support class
  *
@@ -789,7 +789,7 @@ class CategLib extends BitBase {
 		$ret = array();
 
 		$query = "SELECT tc.`category_id`, COUNT(`cat_object_id`) AS `objects`,`name`,`parent_id`,`description`,`hits` 
-				  FROM `".BIT_DB_PREFIX."tiki_categories` tc LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_category_objects` tco ON(tc.category_id=tco.category_id) 
+				  FROM `".BIT_DB_PREFIX."tiki_categories` tc LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_category_objects` tco ON(tc.`category_id`=tco.`category_id`) 
 				  GROUP BY tc.`category_id`,`parent_id`,`name`,`description`,`hits` order by `name`";
 		$result = $this->query($query,array());
 
