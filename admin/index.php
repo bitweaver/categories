@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.3 2005/07/17 17:36:02 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.4 2005/08/01 18:40:06 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.3 2005/07/17 17:36:02 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.4 2005/08/01 18:40:06 squareing Exp $
 //
 
 // Initialization
@@ -55,7 +55,7 @@ if (!isset($_REQUEST["parent_id"])) {
 	$_REQUEST["parent_id"] = 0;
 }
 
-$smarty->assign('parent_id', $_REQUEST["parent_id"]);
+$gBitSmarty->assign('parent_id', $_REQUEST["parent_id"]);
 
 if (isset($_REQUEST["addpage"])) {
 
@@ -158,9 +158,9 @@ if (isset($_REQUEST["save"]) && isset($_REQUEST["name"]) && strlen($_REQUEST["na
 	$_REQUEST["category_id"] = 0;
 }
 
-$smarty->assign('category_id', $_REQUEST["category_id"]);
-$smarty->assign('name', $info["name"]);
-$smarty->assign('description', $info["description"]);
+$gBitSmarty->assign('category_id', $_REQUEST["category_id"]);
+$gBitSmarty->assign('name', $info["name"]);
+$gBitSmarty->assign('description', $info["description"]);
 
 // If the parent category is not zero get the category path
 if( empty( $_REQUEST["parent_id"] ) ) {
@@ -169,7 +169,7 @@ if( empty( $_REQUEST["parent_id"] ) ) {
 $catInfo = $categlib->get_category($_REQUEST["parent_id"]);
 $catInfo['path'] = $categlib->get_category_path_admin($_REQUEST["parent_id"]);
 
-$smarty->assign('catInfo', $catInfo);
+$gBitSmarty->assign('catInfo', $catInfo);
 
 // Convert $childrens
 //$debugger->var_dump('$children');
@@ -196,7 +196,7 @@ foreach ($ctall as $c) {
 //$debugger->var_dump('$tree_nodes');
 $tm = new CatAdminTreeMaker("admcat");
 $res = $tm->make_tree($_REQUEST["parent_id"], $tree_nodes);
-$smarty->assign('tree', $res);
+$gBitSmarty->assign('tree', $res);
 
 if ( empty( $_REQUEST["sort_mode"] ) ) {
 	$sort_mode = 'name_asc';
@@ -210,7 +210,7 @@ if (!isset($_REQUEST["offset"])) {
 	$offset = $_REQUEST["offset"];
 }
 
-$smarty->assign_by_ref('offset', $offset);
+$gBitSmarty->assign_by_ref('offset', $offset);
 
 if (isset($_REQUEST["find"])) {
 	$find = $_REQUEST["find"];
@@ -218,7 +218,7 @@ if (isset($_REQUEST["find"])) {
 	$find = '';
 }
 
-$smarty->assign('find', $find);
+$gBitSmarty->assign('find', $find);
 
 if (isset($_REQUEST["find_objects"])) {
 	$find_objects = $_REQUEST["find_objects"];
@@ -226,77 +226,77 @@ if (isset($_REQUEST["find_objects"])) {
 	$find_objects = '';
 }
 
-$smarty->assign('find_objects', $find_objects);
+$gBitSmarty->assign('find_objects', $find_objects);
 
-$smarty->assign_by_ref('sort_mode', $sort_mode);
-$smarty->assign_by_ref('find', $find);
+$gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
+$gBitSmarty->assign_by_ref('find', $find);
 
 $objects = $categlib->list_category_objects($_REQUEST["parent_id"], $offset, $maxRecords, $sort_mode, $find);
-$smarty->assign_by_ref('objects', $objects["data"]);
+$gBitSmarty->assign_by_ref('objects', $objects["data"]);
 
 $cant_pages = ceil($objects["cant"] / $maxRecords);
-$smarty->assign_by_ref('cant_pages', $cant_pages);
-$smarty->assign('actual_page', 1 + ($offset / $maxRecords));
+$gBitSmarty->assign_by_ref('cant_pages', $cant_pages);
+$gBitSmarty->assign('actual_page', 1 + ($offset / $maxRecords));
 
 if ($objects["cant"] > ($offset + $maxRecords)) {
-	$smarty->assign('next_offset', $offset + $maxRecords);
+	$gBitSmarty->assign('next_offset', $offset + $maxRecords);
 } else {
-	$smarty->assign('next_offset', -1);
+	$gBitSmarty->assign('next_offset', -1);
 }
 
 // If offset is > 0 then prev_offset
 if ($offset > 0) {
-	$smarty->assign('prev_offset', $offset - $maxRecords);
+	$gBitSmarty->assign('prev_offset', $offset - $maxRecords);
 } else {
-	$smarty->assign('prev_offset', -1);
+	$gBitSmarty->assign('prev_offset', -1);
 }
 
 $categories = $categlib->get_all_categories();
-$smarty->assign_by_ref('categories', $categories);
+$gBitSmarty->assign_by_ref('categories', $categories);
 
 if ( $gBitSystem->isPackageActive( 'imagegals' ) ) {
 	$galleries = $gBitSystem->list_galleries(0, -1, 'name_desc', 'admin', $find_objects);
-	$smarty->assign_by_ref('galleries', $galleries["data"]);
+	$gBitSmarty->assign_by_ref('galleries', $galleries["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'filegals' ) ) {
 	$file_galleries = $filegallib->list_file_galleries(0, -1, 'name_desc', 'admin', $find_objects);
-	$smarty->assign_by_ref('file_galleries', $file_galleries["data"]);
+	$gBitSmarty->assign_by_ref('file_galleries', $file_galleries["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'tiki_forums' ) ) {
 	$forums = $gBitSystem->list_forums(0, -1, 'name_asc', $find_objects);
-	$smarty->assign_by_ref('forums', $forums["data"]);
+	$gBitSmarty->assign_by_ref('forums', $forums["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'polls' ) ) {
 	$polls = $polllib->list_polls(0, -1, 'title_asc', $find_objects);
-	$smarty->assign_by_ref('polls', $polls["data"]);
+	$gBitSmarty->assign_by_ref('polls', $polls["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'blogs' ) ) {
 	$blogs = $gBlog->list_blogs(0, -1, 'title_asc', $find_objects);
-	$smarty->assign_by_ref('blogs', $blogs["data"]);
+	$gBitSmarty->assign_by_ref('blogs', $blogs["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'wiki' ) ) {
 	$pages = $wikilib->getList(0, -1, 'title_asc', $find_objects);
-	$smarty->assign_by_ref('pages', $pages["data"]);
+	$gBitSmarty->assign_by_ref('pages', $pages["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'faqs' ) ) {
 	$faqs = $gBitSystem->list_faqs(0, -1, 'title_asc', $find_objects);
-	$smarty->assign_by_ref('faqs', $faqs["data"]);
+	$gBitSmarty->assign_by_ref('faqs', $faqs["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'quizzes' ) ) {
 	$quizzes = $gBitSystem->list_quizzes(0, -1, 'name_asc', $find_objects);
-	$smarty->assign_by_ref('quizzes', $quizzes["data"]);
+	$gBitSmarty->assign_by_ref('quizzes', $quizzes["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'trackers' ) ) {
 	$trackers = $trklib->list_trackers(0, -1, 'name_asc', $find_objects);
-	$smarty->assign_by_ref('trackers', $trackers["data"]);
+	$gBitSmarty->assign_by_ref('trackers', $trackers["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'articles' ) ) {
 	$articles = $artlib->list_articles(0, -1, 'title_asc', $find_objects);
-	$smarty->assign_by_ref('articles', $articles["data"]);
+	$gBitSmarty->assign_by_ref('articles', $articles["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'directory' ) ) {
 	$directories = $dirlib->dir_list_all_categories(0, -1, 'name_asc', $find_objects);
-	$smarty->assign_by_ref('directories', $directories["data"]);
+	$gBitSmarty->assign_by_ref('directories', $directories["data"]);
 }
 
 

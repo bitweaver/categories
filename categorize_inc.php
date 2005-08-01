@@ -6,7 +6,7 @@
  * @subpackage  functions
  */
 
-// $Header: /cvsroot/bitweaver/_bit_categories/Attic/categorize_inc.php,v 1.2 2005/06/28 07:45:40 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/Attic/categorize_inc.php,v 1.3 2005/08/01 18:40:06 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -19,7 +19,7 @@ include_once( CATEGORIES_PKG_PATH.'categ_lib.php');
 global $categlib, $cat_obj_type, $cat_objid, $cat_content_id;
 
 if ($gBitSystem->isPackageActive( 'categories' )) {
-	$smarty->assign('cat_categorize', 'n');
+	$gBitSmarty->assign('cat_categorize', 'n');
 
 	$categlib->uncategorize($cat_obj_type, $cat_objid, $cat_content_id);
 	if (!empty($_REQUEST["cat_categories"])) {
@@ -38,7 +38,7 @@ if ($gBitSystem->isPackageActive( 'categories' )) {
 	}
 
 	$categories = $categlib->list_all_categories(0, -1, 'name_asc', '', $cat_obj_type, $cat_objid);
-	$smarty->assign_by_ref('categories', $categories["data"]);
+	$gBitSmarty->assign_by_ref('categories', $categories["data"]);
 }
 
 ?>

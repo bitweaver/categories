@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.5 2005/07/17 17:36:01 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.6 2005/08/01 18:40:06 squareing Exp $
  *
  * Categories support class
  *
@@ -379,7 +379,7 @@ class CategLib extends BitBase {
 
 	/*shared*/
 	function get_categoryobjects($cats) {
-		global $gBitSystem, $smarty;
+		global $gBitSystem, $gBitSmarty;
 
 		$typetitles = array();
 		if( $gBitSystem->isPackageActive( 'articles' ) ) {
@@ -459,9 +459,9 @@ class CategLib extends BitBase {
 			}
 
 			// split mode: appending onto $out each time
-			$smarty->assign("title", $title);
-			$smarty->assign("listcat", $listcat);
-			$out .= $smarty->fetch("bitpackage:wiki/simple_plugin.tpl");
+			$gBitSmarty->assign("title", $title);
+			$gBitSmarty->assign("listcat", $listcat);
+			$out .= $gBitSmarty->fetch("bitpackage:wiki/simple_plugin.tpl");
 			// reset array for next loop
 			$listcat = array();
 			// reset title
@@ -470,9 +470,9 @@ class CategLib extends BitBase {
 		}
 
 		// non-split mode
-		//	$smarty -> assign("title", $title);
-		//	$smarty -> assign("listcat", $listcat);
-		//	$out = $smarty -> fetch("bitpackage:wiki/simple_plugin.tpl");
+		//	$gBitSmarty -> assign("title", $title);
+		//	$gBitSmarty -> assign("listcat", $listcat);
+		//	$out = $gBitSmarty -> fetch("bitpackage:wiki/simple_plugin.tpl");
 		return $out;
 	}
 
@@ -789,7 +789,7 @@ class CategLib extends BitBase {
 		$ret = array();
 
 		$query = "SELECT tc.`category_id`, COUNT(`cat_object_id`) AS `objects`,`name`,`parent_id`,`description`,`hits` 
-				  FROM `".BIT_DB_PREFIX."tiki_categories` tc LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_category_objects` tco ON(tc.category_id=tco.category_id) 
+				  FROM `".BIT_DB_PREFIX."tiki_categories` tc LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_category_objects` tco ON(tc.`category_id`=tco.`category_id`) 
 				  GROUP BY tc.`category_id`,`parent_id`,`name`,`description`,`hits` order by `name`";
 		$result = $this->query($query,array());
 
