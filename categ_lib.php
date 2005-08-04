@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.6 2005/08/01 18:40:06 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.7 2005/08/04 06:53:27 beatlebug Exp $
  *
  * Categories support class
  *
@@ -217,7 +217,11 @@ class CategLib extends BitBase {
 
 		if ($find) {
 			$findesc = '%' . strtoupper( $find ) . '%';
-			$des = array($findesc,$findesc);
+			if (count($des)>0) {
+			    array_push($des,$findesc,$findesc);
+			} else {
+		        $des = array($findesc,$findesc);
+			}
 			$mid = " where (UPPER(`name`) like ? or UPPER(`description`) like ?)";
 		} else {
 			$mid = "";
