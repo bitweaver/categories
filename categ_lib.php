@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.7 2005/08/04 06:53:27 beatlebug Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.8 2005/08/04 07:22:01 beatlebug Exp $
  *
  * Categories support class
  *
@@ -222,7 +222,12 @@ class CategLib extends BitBase {
 			} else {
 		        $des = array($findesc,$findesc);
 			}
-			$mid = " where (UPPER(`name`) like ? or UPPER(`description`) like ?)";
+			global $gBitDbType;
+			if ( $gBitDbType == "firebird" ) { // SB: Temp fix, since Firebird do not support search in memo fields
+			    $mid = " and (UPPER(`name`) like ? or UPPER(`name`) like ?) ";
+			} else {
+			    $mid = " and (UPPER(`name`) like ? or UPPER(`description`) like ?)";
+			}
 		} else {
 			$mid = "";
 		}
@@ -258,7 +263,12 @@ class CategLib extends BitBase {
 		if ($find) {
 			$findesc = '%' . strtoupper( $find ) . '%';
 			$bindvars=array((int) $category_id,$findesc,$findesc);
-			$mid = " and (UPPER(tbl2.`name`) like ? or UPPER(tbl2.`description`) like ?)";
+			global $gBitDbType;
+			if ( $gBitDbType == "firebird" ) { // SB: Temp fix, since Firebird do not support search in memo fields
+			    $mid = " and (UPPER(tbl2.`name`) like ? or UPPER(tbl2.`name`) like ?)";
+			} else {
+			    $mid = " and (UPPER(tbl2.`name`) like ? or UPPER(tbl2.`description`) like ?)";
+			}
 		} else {
 			$mid = "";
 			$bindvars=array((int) $category_id);
