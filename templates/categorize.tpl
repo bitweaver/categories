@@ -10,7 +10,7 @@
 				</label><br />
 			{/section}
 			{if $gBitUser->hasPermission( 'bit_p_admin_categories' )}
-				<br /><a href="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php">{tr}Admin categories{/tr}</a>
+				<br /><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php">{tr}Admin categories{/tr}</a>
 			{/if}
 		{/forminput}
 	</div>

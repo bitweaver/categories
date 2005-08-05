@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.1.1.1.2.1 2005/07/15 12:00:56 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.1.1.1.2.2 2005/08/05 22:59:52 squareing Exp $ *}
 <div class="floaticon">{bithelp}</div>
 <div class="admin category">
 <div class="header">
@@ -13,8 +13,8 @@
 
 {if $parent_id ne '0'}
 <div class="navbar above">
-  {tr}go to{/tr} <a href="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php?parent_id=0">{tr}top{/tr}</a>
-  {tr}go up{/tr} <a href="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php?parent_id={$catInfo.father}" title="Upper level">{tr}one level{/tr}</a>
+  {tr}go to{/tr} <a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id=0">{tr}top{/tr}</a>
+  {tr}go up{/tr} <a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$catInfo.father}" title="Upper level">{tr}one level{/tr}</a>
 </div>
 {/if}
 {$tree}
@@ -28,11 +28,11 @@
  {else}
   <h2>{tr}Add new category{/tr}</h2>
 {/if}
-<form action="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php" method="post">
+<form action="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php" method="post">
 <table class="panel">
  {if $category_id > 0}
   <tr><td colspan="2">
-    <a href="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}#editcreate">{tr}create new{/tr}</a>
+    <a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}#editcreate">{tr}create new{/tr}</a>
   </td></tr>
  {/if}
  <tr><td>
@@ -59,7 +59,7 @@
 <table class="find">
   <tr><td>{tr}Find{/tr}</td>
   <td>
-    <form method="get" action="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php">
+    <form method="get" action="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php">
     <input type="text" name="find_objects" />
     <input type="hidden" name="parent_id" value="{$parent_id|escape}" />
     <input type="submit" value="{tr}filter{/tr}" name="search_objects" />
@@ -71,7 +71,7 @@
   </tr>
 </table>
 
-<form action="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php" method="post">
+<form action="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php" method="post">
 <input type="hidden" name="parent_id" value="{$parent_id|escape}" />
   <table class="panel">
   {if $gBitSystem->isFeatureActive( 'feature_wiki' )}
@@ -158,7 +158,7 @@
 <table class="find">
   <tr><td>{tr}Find{/tr}</td>
   <td>
-    <form method="get" action="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php">
+    <form method="get" action="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php">
     <input type="text" name="find" />
     <input type="hidden" name="parentId" value="{$parentId|escape}" />
     <input type="submit" value="{tr}find{/tr}" name="search" />
@@ -171,8 +171,8 @@
 
 <table class="data">
   <tr>
-    <th><a href="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php?parentId={$parentId}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}name{/tr}</a></th>
-    <th><a href="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php?parentId={$parentId}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'type_desc'}type_asc{else}type_desc{/if}">{tr}type{/tr}</a></th>
+    <th><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parentId={$parentId}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}name{/tr}</a></th>
+    <th><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parentId={$parentId}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'type_desc'}type_asc{else}type_desc{/if}">{tr}type{/tr}</a></th>
     <th>{tr}Description{/tr}</th>
     <th>{tr}Remove{/tr}</th>
   </tr>
@@ -182,7 +182,7 @@
     <td><a href="{$objects[ix].href}" title="{$objects[ix].name}">{$objects[ix].name|truncate:25:"(...)":true}</a></td>
     <td>{$objects[ix].object_type}</td>
     <td>{$objects[ix].description}</td>
-    <td align="right"><a href="{$gBitLoc.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}&amp;removeObject={$objects[ix].cat_object_id}&amp;fromCateg={$parent_id}" title="{tr}Delete item from category?{/tr}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to remove {$objects[ix].name} from {$catInfo.name|escape}?{/tr}')">{biticon ipackage="liberty" iname="delete_small" iexplain="remove"}</a></td>
+    <td align="right"><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}&amp;removeObject={$objects[ix].cat_object_id}&amp;fromCateg={$parent_id}" title="{tr}Delete item from category?{/tr}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to remove {$objects[ix].name} from {$catInfo.name|escape}?{/tr}')">{biticon ipackage="liberty" iname="delete_small" iexplain="remove"}</a></td>
   </tr>
   {sectionelse}
   <tr class="norecords">
