@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.12 2005/08/04 08:54:39 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.13 2005/08/07 13:16:42 lsces Exp $
  *
  * Categories support class
  *
@@ -34,10 +34,10 @@ class CategLib extends BitBase {
 			$mid = "";
 		}
 
-		$query = "select * from `".BIT_DB_PREFIX."tiki_categories` $mid order by ".$this->convert_sortmode($sort_mode);
+		$query = "select * from `".BIT_DB_PREFIX."tiki_categories` $mid order by ".$this->getDb()->convert_sortmode($sort_mode);
 		$query_cant = "select count(*) from `".BIT_DB_PREFIX."tiki_categories` $mid";
-		$result = $this->query($query,$bindvals,$maxRecords,$offset);
-		$cant = $this->getOne($query_cant,$bindvals);
+		$result = $this->getDb()->query($query,$bindvals,$maxRecords,$offset);
+		$cant = $this->getDb()->getOne($query_cant,$bindvals);
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
@@ -91,7 +91,7 @@ class CategLib extends BitBase {
 		if( empty( $catCache[$pCategoryId] ) ) {
 			$query = "select * from `".BIT_DB_PREFIX."tiki_categories` where `category_id`=?";
 
-			$result = $this->query($query,array((int) $pCategoryId));
+			$result = $this->getDb()->query($query,array((int) $pCategoryId));
 
 			if (!$result->numRows())
 				return false;
@@ -108,22 +108,22 @@ class CategLib extends BitBase {
 		// Delete the category
 		$query = "delete from `".BIT_DB_PREFIX."tiki_categories` where `category_id`=?";
 
-		$result = $this->query($query,array((int) $category_id));
+		$result = $this->getDb()->query($query,array((int) $category_id));
 		// Remove objects for this category
 		$query = "select `cat_object_id` from `".BIT_DB_PREFIX."tiki_category_objects` where `category_id`=?";
-		$result = $this->query($query,array((int) $category_id));
+		$result = $this->getDb()->query($query,array((int) $category_id));
 
 		while ($res = $result->fetchRow()) {
 			$object = $res["cat_object_id"];
 
 			$query2 = "delete from `".BIT_DB_PREFIX."tiki_categorized_objects` where `cat_object_id`=?";
-			$result2 = $this->query($query2,array($object));
+			$result2 = $this->getDb()->query($query2,array($object));
 		}
 
 		$query = "delete from `".BIT_DB_PREFIX."tiki_category_objects` where `category_id`=?";
-		$result = $this->query($query,array((int) $category_id));
+		$result = $this->getDb()->query($query,array((int) $category_id));
 		$query = "select `category_id` from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
-		$result = $this->query($query,array((int) $category_id));
+		$result = $this->getDb()->query($query,array((int) $category_id));
 
 		while ($res = $result->fetchRow()) {
 			// Recursively remove the subcategory
@@ -135,7 +135,7 @@ class CategLib extends BitBase {
 
 	function update_category($category_id, $name, $description, $parent_id) {
 		$query = "update `".BIT_DB_PREFIX."tiki_categories` set `name`=?, `parent_id`=?, `description`=? where `category_id`=?";
-		$result = $this->query($query,array($name,(int) $parent_id,$description,(int) $category_id));
+		$result = $this->getDb()->query($query,array($name,(int) $parent_id,$description,(int) $category_id));
 	}
 
 	function add_category($parent_id, $name, $description, $pCatId=NULL ) {
@@ -148,7 +148,7 @@ class CategLib extends BitBase {
 			$idName = ', `category_id` ';
 		}
 		$query = "insert into `".BIT_DB_PREFIX."tiki_categories` ( `name`,`description`,`parent_id`,`hits` $idName ) values (?,?,?,? $idVal )";
-		$result = $this->query($query, $bindVars );
+		$result = $this->getDb()->query($query, $bindVars );
 	}
 
 	function is_categorized($type, $pObjId) {
@@ -159,7 +159,7 @@ class CategLib extends BitBase {
 					  WHERE `object_type`=? and `object_id`=?";
 			$bindvars=array($type,$pObjId);
 			settype($bindvars["1"],"string");
-			$result = $this->query($query,$bindvars);
+			$result = $this->getDb()->query($query,$bindvars);
 			if ($result->numRows()) {
 				$res = $result->fetchRow();
 				$ret = $res["cat_object_id"];
@@ -175,24 +175,24 @@ class CategLib extends BitBase {
 		$now = date("U");
 		$query = "insert into `".BIT_DB_PREFIX."tiki_categorized_objects`(`object_type`,`object_id`,`description`,`name`,`href`,`created`,`hits`)
     values(?,?,?,?,?,?,?)";
-		$result = $this->query($query,array($type,(string) $obj_id,$description,$name,$href,(int) $now,0));
+		$result = $this->getDb()->query($query,array($type,(string) $obj_id,$description,$name,$href,(int) $now,0));
 		$query = "select `cat_object_id` from `".BIT_DB_PREFIX."tiki_categorized_objects` where `created`=? and `object_type`=? and `object_id`=?";
-		$id = $this->getOne($query,array((int) $now,$type,(string) $obj_id));
+		$id = $this->getDb()->getOne($query,array((int) $now,$type,(string) $obj_id));
 		return $id;
 	}
 
 	function categorize($cat_object_id, $category_id) {
 		$query = "delete from `".BIT_DB_PREFIX."tiki_category_objects` where `cat_object_id`=? and `category_id`=?";
-		$result = $this->query($query,array((int) $cat_object_id,(int) $category_id));
+		$result = $this->getDb()->query($query,array((int) $cat_object_id,(int) $category_id));
 
 		$query = "insert into `".BIT_DB_PREFIX."tiki_category_objects`(`cat_object_id`,`category_id`) values(?,?)";
-		$result = $this->query($query,array((int) $cat_object_id,(int) $category_id));
+		$result = $this->getDb()->query($query,array((int) $cat_object_id,(int) $category_id));
 	}
 
 	function get_category_descendants($category_id) {
 		$query = "select `category_id` from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
 
-		$result = $this->query($query,array((int) $category_id));
+		$result = $this->getDb()->query($query,array((int) $category_id));
 		$ret = array($category_id);
 
 		while ($res = $result->fetchRow()) {
@@ -232,13 +232,13 @@ class CategLib extends BitBase {
 			$mid = "";
 		}
 
-		$query = "select * from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` $cond $mid order by ".$this->convert_sortmode($sort_mode);
+		$query = "select * from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` $cond $mid order by ".$this->getDb()->convert_sortmode($sort_mode);
 		$query_cant = "select distinct tbl1.`cat_object_id` from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` $cond $mid";
-		$result = $this->query($query,$des,$maxRecords,$offset);
-		$result2 = $this->query($query_cant,$des);
+		$result = $this->getDb()->query($query,$des,$maxRecords,$offset);
+		$result2 = $this->getDb()->query($query_cant,$des);
 		$cant = $result2->numRows();
 		$cant2
-			= $this->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` $cond $mid",$des);
+			= $this->getDb()->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` $cond $mid",$des);
 		$ret = array();
 		$objs = array();
 
@@ -276,13 +276,13 @@ class CategLib extends BitBase {
 
 		$query = "select tbl1.`cat_object_id`,`category_id`,`object_type`,`object_id`,`description`,
 			`created`,`name`,`href`,`hits`
-			from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` and tbl1.`category_id`=? $mid order by tbl2.".$this->convert_sortmode($sort_mode);
+			from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` and tbl1.`category_id`=? $mid order by tbl2.".$this->getDb()->convert_sortmode($sort_mode);
 		$query_cant = "select distinct tbl1.`cat_object_id` from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` and tbl1.`category_id`=? $mid";
-		$result = $this->query($query,$bindvars,$maxRecords,$offset);
-		$result2 = $this->query($query_cant,$bindvars);
+		$result = $this->getDb()->query($query,$bindvars,$maxRecords,$offset);
+		$result2 = $this->getDb()->query($query_cant,$bindvars);
 		$cant = $result2->numRows();
 		$cant2
-			= $this->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` and tbl1.`category_id`=? $mid",$bindvars);
+			= $this->getDb()->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` and tbl1.`category_id`=? $mid",$bindvars);
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
@@ -332,7 +332,7 @@ class CategLib extends BitBase {
         	where tco.`cat_object_id`=tto.`cat_object_id` and tco.`category_id`=tc.`category_id` and `object_type`=? and `object_id`=?";
 
 			$bindvars=array($type,(string)$obj_id);
-			if( $result = $this->query($query,$bindvars) ) {
+			if( $result = $this->getDb()->query($query,$bindvars) ) {
 				while ($res = $result->fetchRow()) {
 					$ret[] = $res;
 				}
@@ -494,7 +494,7 @@ class CategLib extends BitBase {
 		// Get all the objects in a category
 		$query = "select * from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` and `category_id`=?";
 
-		$result = $this->query($query,array((int) $category_id));
+		$result = $this->getDb()->query($query,array((int) $category_id));
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
@@ -516,8 +516,8 @@ class CategLib extends BitBase {
 		}
 		$sort_mode = 'created_desc';
 		$query = "select tbl2.`object_id` from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 ";
-		$query.= " where tbl1.`cat_object_id`=tbl2.`cat_object_id` and created > ? and `category_id`=? $mid order by tbl2.".$this->convert_sortmode($sort_mode);
-		$result = $this->query($query,$bindvars);
+		$query.= " where tbl1.`cat_object_id`=tbl2.`cat_object_id` and created > ? and `category_id`=? $mid order by tbl2.".$this->getDb()->convert_sortmode($sort_mode);
+		$result = $this->getDb()->query($query,$bindvars);
 		$rs = $result->GetArray();
 		$ret = array();
 		if (count($rs)) {
@@ -540,13 +540,13 @@ class CategLib extends BitBase {
 		if( $this->verifyId( $id ) ) {
 			// Fixed query. -rlpowell
 			$query = "select `cat_object_id`  from `".BIT_DB_PREFIX."tiki_categorized_objects` where `object_type`=? and `object_id`=?";
-			$cat_object_id = $this->getOne($query, array($type,$id));
+			$cat_object_id = $this->getDb()->getOne($query, array($type,$id));
 
 			if ($cat_object_id) {
 				$query = "delete from `".BIT_DB_PREFIX."tiki_category_objects` where `cat_object_id`=?";
-				$result = $this->query($query,array((int) $cat_object_id));
+				$result = $this->getDb()->query($query,array((int) $cat_object_id));
 				$query = "delete from `".BIT_DB_PREFIX."tiki_categorized_objects` where `cat_object_id`=?";
-				$result = $this->query($query,array((int) $cat_object_id));
+				$result = $this->getDb()->query($query,array((int) $cat_object_id));
 			}
 		}
 	}
@@ -561,15 +561,15 @@ class CategLib extends BitBase {
 	function remove_object_from_category($cat_object_id, $category_id) {
 		$query = "delete from `".BIT_DB_PREFIX."tiki_category_objects` where `cat_object_id`=? and `category_id`=?";
 
-		$result = $this->query($query,array($cat_object_id,$category_id));
+		$result = $this->getDb()->query($query,array($cat_object_id,$category_id));
 		// If the object is not listed in any category then remove the object
 		$query = "select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` where `cat_object_id`=?";
-		$cant = $this->getOne($query,array((int) $cat_object_id));
+		$cant = $this->getDb()->getOne($query,array((int) $cat_object_id));
 
 		if (!$cant) {
 			$query = "delete from `".BIT_DB_PREFIX."tiki_categorized_objects` where `cat_object_id`=?";
 
-			$result = $this->query($query,array((int) $cat_object_id));
+			$result = $this->getDb()->query($query,array((int) $cat_object_id));
 		}
 	}
 
@@ -683,7 +683,7 @@ class CategLib extends BitBase {
 			}
 		} elseif ($purge) {
 			$query = "delete from `".BIT_DB_PREFIX."tiki_category_objects` where `cat_object_id`=? and `category_id`=?";
-			$this->query($query,array($cat_object_id,$category_id));
+			$this->getDb()->query($query,array($cat_object_id,$category_id));
 		}
 
 		$this->categorize($cat_object_id, $category_id);
@@ -770,15 +770,15 @@ class CategLib extends BitBase {
 		$ret = array();
 
 		$query = "select * from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
-		$result = $this->query($query,array($category_id));
+		$result = $this->getDb()->query($query,array($category_id));
 
 		while ($res = $result->fetchRow()) {
 			$id = $res["category_id"];
 
 			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
-			$res["children"] = $this->getOne($query,array($id));
+			$res["children"] = $this->getDb()->getOne($query,array($id));
 			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` where `category_id`=?";
-			$res["objects"] = $this->getOne($query,array($id));
+			$res["objects"] = $this->getDb()->getOne($query,array($id));
 			$ret[] = $res;
 		}
 
@@ -788,7 +788,7 @@ class CategLib extends BitBase {
 	function get_all_categories() {
 		$query = " select `name`,`category_id`,`parent_id` from `".BIT_DB_PREFIX."tiki_categories` order by `name`";
 
-		$result = $this->query($query,array());
+		$result = $this->getDb()->query($query,array());
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
@@ -805,15 +805,15 @@ class CategLib extends BitBase {
 		$query = "SELECT tc.`category_id`, COUNT(`cat_object_id`) AS `objects`,`name`,`parent_id`,`description`,`hits` 
 				  FROM `".BIT_DB_PREFIX."tiki_categories` tc LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_category_objects` tco ON(tc.`category_id`=tco.`category_id`) 
 				  GROUP BY tc.`category_id`,`parent_id`,`name`,`description`,`hits` order by `name`";
-		$result = $this->query($query,array());
+		$result = $this->getDb()->query($query,array());
 
 		while ($res = $result->fetchRow()) {
 			$id = $res["category_id"];
 
 //			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
-//			$res["children"] = $this->getOne($query,array($id));
+//			$res["children"] = $this->getDb()->getOne($query,array($id));
 //			$query = "select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` where `category_id`=?";
-//			$res["objects"] = $this->getOne($query,array($id));
+//			$res["objects"] = $this->getDb()->getOne($query,array($id));
 			$ret[] = $res;
 		}
 		return $ret;
@@ -834,7 +834,7 @@ class CategLib extends BitBase {
 		}
 		*/
 		$query="select distinct co.`category_id` from `".BIT_DB_PREFIX."tiki_categorized_objects` cdo, `".BIT_DB_PREFIX."tiki_category_objects` co  where cdo.`href`=? and cdo.`cat_object_id`=co.`cat_object_id`";
-		$result=$this->query($query,array($parsed["path"]."?".$parsed["query"]));
+		$result=$this->getDb()->query($query,array($parsed["path"]."?".$parsed["query"]));
 		while ($res = $result->fetchRow()) {
 		  $ret[]=$res["category_id"];
 		}
@@ -847,7 +847,7 @@ class CategLib extends BitBase {
 		if(count($categories)==0) return (array());
 		$quarr=implode(",",array_fill(0,count($categories),'?'));
 		$query="select distinct cdo.`object_type`, cdo.`description`, cdo.`object_id`,cdo.`href` from `".BIT_DB_PREFIX."tiki_categorized_objects` cdo, `".BIT_DB_PREFIX."tiki_category_objects` co  where co.`category_id` in (".$quarr.") and co.`cat_object_id`=cdo.`cat_object_id`";
-		$result=$this->query($query,$categories);
+		$result=$this->getDb()->query($query,$categories);
 		$ret=array();
 		while ($res = $result->fetchRow()) {
 			if (empty($res["description"])) {
