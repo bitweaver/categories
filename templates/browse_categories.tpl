@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/browse_categories.tpl,v 1.1 2005/06/19 03:58:14 bitweaver Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/browse_categories.tpl,v 1.2 2005/08/07 17:36:10 squareing Exp $ *}
 <div class="display category">
 <div class="header">
 <h1>{tr}Categories{/tr}</h1>
@@ -6,7 +6,7 @@
 
 <div class="body">
 
-<form method="post" action="{$gBitLoc.CATEGORIES_PKG_URL}index.php">
+<form method="post" action="{$smarty.const.CATEGORIES_PKG_URL}index.php">
 <table class="find">
   <tr>
     <td>{tr}search category{/tr}</td>
@@ -24,14 +24,14 @@
 <h2>{tr}Current category{/tr}: {$path}</h2>
 {* Don't show 'TOP' button if we already on TOP but reserve space to avoid visual effects on change view *}
 <div class="navbar" style="visibility:{if $parent_id ne '0'}visible{else}hidden{/if}">
-  {tr}go to{/tr} <a class="linkbut" href="{$gBitLoc.CATEGORIES_PKG_URL}index.php?parent_id=0">{tr}top{/tr}</a>
+  {tr}go to{/tr} <a class="linkbut" href="{$smarty.const.CATEGORIES_PKG_URL}index.php?parent_id=0">{tr}top{/tr}</a>
 </div>
 
 {* Show tree *}
 { * If not TOP level, append '..' as first node :) *}
 {if $parent_id ne '0'}
 <div class="navbar">
-  {tr}go up{/tr} <a class="linkbut" href="{$gBitLoc.CATEGORIES_PKG_URL}index.php?parent_id={$father}" title="Upper level">{tr}one level{/tr}</a>
+  {tr}go up{/tr} <a class="linkbut" href="{$smarty.const.CATEGORIES_PKG_URL}index.php?parent_id={$father}" title="Upper level">{tr}one level{/tr}</a>
 </div>
 {/if}
 {$tree}
