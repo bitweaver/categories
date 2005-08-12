@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.1.1.1.2.2 2005/08/05 22:59:52 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.1.1.1.2.3 2005/08/12 11:38:54 wolff_borg Exp $ *}
 <div class="floaticon">{bithelp}</div>
 <div class="admin category">
 <div class="header">
@@ -40,7 +40,6 @@
   {tr}Parent{/tr}
   </td><td>
   <select name="parent_id">
-    <option value="0">{tr}top{/tr}</option>
     {section name=ix loop=$categories}
     <option value="{$categories[ix].category_id|escape}" {if $categories[ix].category_id eq $parent_id}selected="selected"{/if}>{$categories[ix].name}</option>
     {/section}

@@ -1,6 +1,6 @@
 <?php
 /** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.14 2005/08/07 16:23:23 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.15 2005/08/12 11:38:54 wolff_borg Exp $
  *
  * Categories support class
  *
@@ -41,10 +41,12 @@ class CategLib extends BitBase {
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
-			if (in_array($res["category_id"], $cats)) {
-				$res["incat"] = 'y';
-			} else {
-				$res["incat"] = 'n';
+			foreach ($cats as $cat) {
+				if ($res["category_id"] == $cat["category_id"]) {
+					$res["incat"] = 'y';
+				} else {
+					$res["incat"] = 'n';
+				}
 			}
 			$categpath = $this->get_category_path( $res );
 			$res['root_category_id'] = $categpath['root_category_id'];

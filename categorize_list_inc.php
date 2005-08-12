@@ -6,7 +6,7 @@
  * @subpackage  functions
  */
 
-// $Header: /cvsroot/bitweaver/_bit_categories/Attic/categorize_list_inc.php,v 1.1.1.1.2.2 2005/07/26 15:50:03 drewslater Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/Attic/categorize_list_inc.php,v 1.1.1.1.2.3 2005/08/12 11:38:54 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -24,7 +24,7 @@ if ($gBitSystem->isPackageActive( 'categories' )) {
 		$gBitSmarty->assign('cat_categorize', 'y');
 	}
 
-	$categories = $categlib->list_all_categories(0, -1, 'name_asc', '', $cat_type, $cat_objid);
+	$categories = $categlib->list_all_categories(0, -1, 'name_asc', '', $cat_obj_type, $cat_objid);
 	if (isset($_REQUEST["cat_categories"]) && isset($_REQUEST["cat_categorize"]) && $_REQUEST["cat_categorize"] == 'on') {
 		for ($i = 0; $i < count($categories["data"]); $i++) {
 			if (in_array($categories["data"][$i]["category_id"], $_REQUEST["cat_categories"])) {
@@ -38,7 +38,7 @@ if ($gBitSystem->isPackageActive( 'categories' )) {
 	$gBitSmarty->assign_by_ref('categories', $categories["data"]);
 
 	// check if this page is categorized
-	if ($categlib->is_categorized($cat_type, $cat_objid)) {
+	if ($categlib->is_categorized($cat_obj_type, $cat_objid)) {
 		$cat_categorize = 'y';
 	} else {
 		$cat_categorize = 'n';
