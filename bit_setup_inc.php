@@ -6,6 +6,7 @@
 		$gLibertySystem->registerService( LIBERTY_SERVICE_CATEGORIZATION, CATEGORIES_PKG_NAME, array(
 			'content_display_function' => 'categories_display',
 			'content_edit_function' => 'categories_object_edit',
+			'content_preview_function' => 'categories_object_edit',
 			'content_store_function' => 'categories_categorize',
 			'content_edit_tpl' => 'bitpackage:categories/categorize.tpl',
 			'content_view_tpl' => 'bitpackage:categories/categories_objects.tpl',
