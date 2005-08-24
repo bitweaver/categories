@@ -1,13 +1,13 @@
 <?php
-/** 
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.9 2005/08/07 17:36:10 squareing Exp $
+/**
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.10 2005/08/24 20:50:00 squareing Exp $
  *
  * Categories support class
  *
  * @package  categories
  */
 
-/** 
+/**
  * Categories support class
  *
  * @package  categories
@@ -41,10 +41,12 @@ class CategLib extends BitBase {
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
-			if (in_array($res["category_id"], $cats)) {
-				$res["incat"] = 'y';
-			} else {
-				$res["incat"] = 'n';
+			foreach ($cats as $cat) {
+				if ($res["category_id"] == $cat["category_id"]) {
+					$res["incat"] = 'y';
+				} else {
+					$res["incat"] = 'n';
+				}
 			}
 			$categpath = $this->get_category_path( $res );
 			$res['root_category_id'] = $categpath['root_category_id'];
@@ -802,8 +804,8 @@ class CategLib extends BitBase {
 	function get_all_categories_ext() {
 		$ret = array();
 
-		$query = "SELECT tc.`category_id`, COUNT(`cat_object_id`) AS `objects`,`name`,`parent_id`,`description`,`hits` 
-				  FROM `".BIT_DB_PREFIX."tiki_categories` tc LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_category_objects` tco ON(tc.`category_id`=tco.`category_id`) 
+		$query = "SELECT tc.`category_id`, COUNT(`cat_object_id`) AS `objects`,`name`,`parent_id`,`description`,`hits`
+				  FROM `".BIT_DB_PREFIX."tiki_categories` tc LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_category_objects` tco ON(tc.`category_id`=tco.`category_id`)
 				  GROUP BY tc.`category_id`,`parent_id`,`name`,`description`,`hits` order by `name`";
 		$result = $this->mDb->query($query,array());
 
@@ -872,6 +874,99 @@ class CategLib extends BitBase {
 		return ($this->get_related($this->get_link_categories($link),$max_rows));
 	}
 
+}
+
+function categories_categorize( &$pObject, &$pParamHash ) {
+	global $categlib, $categorizeObject, $gBitSmarty;
+
+	// non-liberty content can use their own ID if they need to.
+	if( empty( $pParamHash['cat_object_id'] ) ) {
+		$catObjectId = $pObject->mContentId;
+	}
+	$catObjType = $pObject->getContentType();
+	$cat_desc = NULL;
+//	$cat_desc = ($gBitSystem->isFeatureActive( 'feature_wiki_description' ) && !empty( $_REQUEST["description"] )) ? substr($_REQUEST["description"],0,200) : '';
+
+	$gBitSmarty->assign('cat_categorize', 'n');
+	$categlib->uncategorize($catObjType, $catObjectId );
+
+	if (!empty($pParamHash["cat_categories"])) {
+		foreach ($pParamHash["cat_categories"] as $cat_acat) {
+			if ($cat_acat) {
+				$cat_object_id = $categlib->is_categorized( $catObjType, $catObjectId );
+
+				if (!$cat_object_id) {
+					// The object is not cateorized
+					$cat_object_id = $categlib->add_categorized_object( $catObjType, $catObjectId, $cat_desc, $pObject->getTitle(), $pObject->getDisplayUrl() );
+				}
+
+				$categlib->categorize($cat_object_id, $cat_acat);
+			}
+		}
+	}
+
+	$categories = $categlib->list_all_categories(0, -1, 'name_asc', '', $catObjType, $catObjectId);
+	$gBitSmarty->assign_by_ref('categories', $categories["data"]);
+}
+
+function categories_display( &$pObject ) {
+	global $categlib, $categorizeObject, $gBitSmarty, $gBitSystem;
+
+	// Check to see if page is categorized
+	$cats = $categlib->get_object_categories( $pObject->getContentType(), $pObject->mContentId );
+	// Display category path or not (like {catpath()})
+	if ( $cats ) {
+		if( $gBitSystem->isFeatureActive( 'feature_categorypath' ) ) {
+			$display_catpath = $categlib->get_category_path($cats);
+			$gBitSmarty->assign('display_catpath',$display_catpath);
+		}
+		// Display current category objects or not (like {category()})
+		if( $gBitSystem->isFeatureActive( 'feature_categoryobjects' ) ) {
+			$display_catobjects = $categlib->get_categoryobjects( $cats );
+			$gBitSmarty->assign( 'display_catobjects',$display_catobjects );
+		}
+	}
+}
+
+function categories_object_edit( &$pObject, &$pParamHash ) {
+	global $categlib, $categorizeObject, $gBitSmarty, $gBitSystem;
+
+	if( is_object( $pObject ) ) {
+		if( empty( $pParamHash['cat_object_type'] ) ) {
+			$pParamHash['cat_object_type'] = $pObject->getContentType();
+		}
+		if( empty( $pParamHash['cat_object_id'] ) ) {
+			$pParamHash['cat_object_id'] = $pObject->mContentId;
+		}
+	}
+
+	$gBitSmarty->assign('cat_categorize', 'n');
+
+	if (isset($_REQUEST["cat_categorize"]) && $_REQUEST["cat_categorize"] == 'on') {
+		$gBitSmarty->assign('cat_categorize', 'y');
+	}
+
+	$categories = $categlib->list_all_categories(0, -1, 'name_asc', '', $pParamHash['cat_object_type'], $pParamHash['cat_object_id'] );
+	if( isset($_REQUEST["cat_categories"]) && isset($_REQUEST["cat_categorize"]) && $_REQUEST["cat_categorize"] == 'on' ) {
+		for( $i = 0; $i < count($categories["data"]); $i++ ) {
+			if( in_array( $categories["data"][$i]["category_id"], $_REQUEST["cat_categories"] ) ) {
+				$categories["data"][$i]["incat"] = 'y';
+			} else {
+				$categories["data"][$i]["incat"] = 'n';
+			}
+		}
+	}
+
+	$gBitSmarty->assign_by_ref('categories', $categories["data"]);
+
+	// check if this page is categorized
+	if ($categlib->is_categorized($pParamHash['cat_object_type'], $pParamHash['cat_object_id'] )) {
+		$cat_categorize = 'y';
+	} else {
+		$cat_categorize = 'n';
+	}
+
+	$gBitSmarty->assign('cat_categorize', $cat_categorize);
 }
 
 global $categlib;
