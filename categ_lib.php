@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.16 2005/08/15 07:17:18 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.17 2005/08/25 20:29:25 lsces Exp $
  *
  * Categories support class
  *
@@ -171,10 +171,11 @@ class CategLib extends BitBase {
 	}
 
 	function add_categorized_object($type, $obj_id, $description, $name, $href) {
+		global $gBitSystem;
 		$description = strip_tags($description);
 
 		$name = strip_tags($name);
-		$now = date("U");
+		$now = $gBitSystem->getUTCTime();
 		$query = "insert into `".BIT_DB_PREFIX."tiki_categorized_objects`(`object_type`,`object_id`,`description`,`name`,`href`,`created`,`hits`)
     values(?,?,?,?,?,?,?)";
 		$result = $this->mDb->query($query,array($type,(string) $obj_id,$description,$name,$href,(int) $now,0));
