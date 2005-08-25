@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.17 2005/08/25 20:29:25 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.18 2005/08/25 22:11:20 lsces Exp $
  *
  * Categories support class
  *
@@ -511,8 +511,9 @@ class CategLib extends BitBase {
 	}
 
 	function get_last_categ_objects($category_id,$type='',$newerthan=30,$num=3) {
+		global $gBitSystem;
 		$mid = '';
-		$bindvars = array(date('U')-($newerthan*60*60*24),$category_id);
+		$bindvars = array($gBitSystem->getUTCTime() - ($newerthan*60*60*24), $category_id);
 		if ($type) {
 			$mid = "and `object_type`=?";
 			$bindvars[] = $type;
