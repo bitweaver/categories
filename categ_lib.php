@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.18 2005/08/25 22:11:20 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.19 2005/08/29 21:54:59 spiderr Exp $
  *
  * Categories support class
  *
@@ -969,6 +969,11 @@ function categories_object_edit( &$pObject, &$pParamHash ) {
 	}
 
 	$gBitSmarty->assign('cat_categorize', $cat_categorize);
+}
+
+function categories_object_expunge( &$pObject ) {
+	global $categlib;
+	$categlib->uncategorize_object( $this->mType['content_type_guid'], $this->mContentId );
 }
 
 global $categlib;
