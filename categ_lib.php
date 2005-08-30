@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.10 2005/08/24 20:50:00 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.11 2005/08/30 22:16:32 squareing Exp $
  *
  * Categories support class
  *
@@ -171,10 +171,11 @@ class CategLib extends BitBase {
 	}
 
 	function add_categorized_object($type, $obj_id, $description, $name, $href) {
+		global $gBitSystem;
 		$description = strip_tags($description);
 
 		$name = strip_tags($name);
-		$now = date("U");
+		$now = $gBitSystem->getUTCTime();
 		$query = "insert into `".BIT_DB_PREFIX."tiki_categorized_objects`(`object_type`,`object_id`,`description`,`name`,`href`,`created`,`hits`)
     values(?,?,?,?,?,?,?)";
 		$result = $this->mDb->query($query,array($type,(string) $obj_id,$description,$name,$href,(int) $now,0));
@@ -510,8 +511,9 @@ class CategLib extends BitBase {
 	}
 
 	function get_last_categ_objects($category_id,$type='',$newerthan=30,$num=3) {
+		global $gBitSystem;
 		$mid = '';
-		$bindvars = array(date('U')-($newerthan*60*60*24),$category_id);
+		$bindvars = array($gBitSystem->getUTCTime() - ($newerthan*60*60*24), $category_id);
 		if ($type) {
 			$mid = "and `object_type`=?";
 			$bindvars[] = $type;
@@ -967,6 +969,11 @@ function categories_object_edit( &$pObject, &$pParamHash ) {
 	}
 
 	$gBitSmarty->assign('cat_categorize', $cat_categorize);
+}
+
+function categories_object_expunge( &$pObject ) {
+	global $categlib;
+	$categlib->uncategorize_object( $this->mType['content_type_guid'], $this->mContentId );
 }
 
 global $categlib;
