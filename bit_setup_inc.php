@@ -1,8 +1,8 @@
 <?php
 	global $gBitSystem;
-	$gBitSystem->registerPackage( 'categories', dirname( __FILE__).'/' );
+	$gBitSystem->registerPackage( 'categories', dirname( __FILE__).'/', TRUE, LIBERTY_SERVICE_CATEGORIZATION );
 
-	if( !empty( $gLibertySystem ) ) {
+	if( $gBitSystem->isPackageActive( 'categories' ) ) {
 		$gLibertySystem->registerService( LIBERTY_SERVICE_CATEGORIZATION, CATEGORIES_PKG_NAME, array(
 			'content_display_function' => 'categories_display',
 			'content_edit_function' => 'categories_object_edit',
@@ -13,9 +13,7 @@
 			'content_view_tpl' => 'bitpackage:categories/categories_objects.tpl',
 			'content_nav_tpl' => 'bitpackage:categories/categories_nav.tpl',
 		) );
-	}
 
-	if($gBitSystem->isPackageActive( 'categories' ) ) {
 		// creates the main categories object
 		require_once( CATEGORIES_PKG_PATH.'categ_lib.php' );
 
