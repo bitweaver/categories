@@ -2,16 +2,18 @@
 	global $gBitSystem;
 	$gBitSystem->registerPackage( 'categories', dirname( __FILE__).'/' );
 
-	$gLibertySystem->registerService( LIBERTY_SERVICE_CATEGORIZATION, CATEGORIES_PKG_NAME, array(
-		'content_display_function' => 'categories_display',
-		'content_edit_function' => 'categories_object_edit',
-		'content_expunge_function' => 'categories_object_expunge',
-		'content_preview_function' => 'categories_object_edit',
-		'content_store_function' => 'categories_categorize',
-		'content_edit_tpl' => 'bitpackage:categories/categorize.tpl',
-		'content_view_tpl' => 'bitpackage:categories/categories_objects.tpl',
-		'content_nav_tpl' => 'bitpackage:categories/categories_nav.tpl',
-	) );
+	if( !empty( $gLibertySystem ) ) {
+		$gLibertySystem->registerService( LIBERTY_SERVICE_CATEGORIZATION, CATEGORIES_PKG_NAME, array(
+			'content_display_function' => 'categories_display',
+			'content_edit_function' => 'categories_object_edit',
+			'content_expunge_function' => 'categories_object_expunge',
+			'content_preview_function' => 'categories_object_edit',
+			'content_store_function' => 'categories_categorize',
+			'content_edit_tpl' => 'bitpackage:categories/categorize.tpl',
+			'content_view_tpl' => 'bitpackage:categories/categories_objects.tpl',
+			'content_nav_tpl' => 'bitpackage:categories/categories_nav.tpl',
+		) );
+	}
 
 	if($gBitSystem->isPackageActive( 'categories' ) ) {
 		// creates the main categories object
