@@ -1,6 +1,6 @@
 <?php
 /** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/CatBrowseTreeMaker.php,v 1.1.1.1.2.1 2005/06/27 10:08:39 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/CatBrowseTreeMaker.php,v 1.1.1.1.2.2 2005/10/03 05:20:46 wolff_borg Exp $
  *
  * Categories browse tree
  *
@@ -37,7 +37,7 @@ class CatBrowseTreeMaker extends TreeMaker {
 	function make_tree($rootid, $ar) {
 		global $debugger;
 
-		$r = $this->make_tree_r($rootid, $ar);
+		$r = '<ul class="tree">'.$this->make_tree_r($rootid, $ar).'</ul>';
 		// $debugger->var_dump('$r');
 		// return tree with java script block that opens the nodes as remembered in cookies
 		return $r . "<script language='Javascript' type='text/javascript'> " . $this->jsscriptblock . " </script>\n";
@@ -58,7 +58,7 @@ class CatBrowseTreeMaker extends TreeMaker {
 	// Unsymmetrical calls is not important :)
 	//
 	function node_start_code($nodeinfo) {
-		return '<div class="treenode">';
+		return '<li class="treenode">';
 	}
 
 	//
@@ -66,7 +66,7 @@ class CatBrowseTreeMaker extends TreeMaker {
 		$this->itemID = $this->prefix . 'id' . $nodeinfo["id"];
 
 		$this->jsscriptblock .= "setFlipWithSign('" . $this->itemID . "'); ";
-		return '<a id="flipper' . $this->itemID . '" href="javascript:flipWithSign(\'' . $this->itemID . '\')">[+]</a>&nbsp;';
+		return '<a class="catname" title="' . tra( 'child categories'). ': ' . $nodeinfo["children"] . ', ' . tra('objects in category'). ': ' . $nodeinfo["objects"] . '" id="flipper' . $this->itemID . '" href="javascript:flipWithSign(\'' . $this->itemID . '\')">[+]</a>';
 	}
 
 	//
@@ -76,22 +76,24 @@ class CatBrowseTreeMaker extends TreeMaker {
 
 	//
 	function node_data_end_code($nodeinfo) {
-		return '</div>';
+		if( !empty( $nodeinfo['objects'] ) ) {
+			return '('.$nodeinfo['objects'].')';
+		}
 	}
 
 	//
 	function node_child_start_code($nodeinfo) {
-		return '<div class="tree" id="' . $this->itemID . '" style="display: none;">';
+		return "\n".'<ul class="tree" id="' . $this->itemID . '" style="display: none;">'."\n";
 	}
 
 	//
 	function node_child_end_code($nodeinfo) {
-		return '</div>';
+		return '</ul>';
 	}
 
 	//
 	function node_end_code($nodeinfo) {
-		return '';
+		return "</li>\n";
 	}
 }
 

@@ -1,18 +1,31 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_categories/modules/mod_whats_related.php,v 1.1.1.1.2.2 2005/07/26 15:50:04 drewslater Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/modules/mod_whats_related.php,v 1.1.1.1.2.3 2005/10/03 05:20:46 wolff_borg Exp $
+ *
+ * Copyright (c) 2004 bitweaver.org
+ * Copyright (c) 2003 tikwiki.org
+ * Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
+ * All Rights Reserved. See copyright.txt for details and a complete list of authors.
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
+ *
+ * $Id: mod_whats_related.php,v 1.1.1.1.2.3 2005/10/03 05:20:46 wolff_borg Exp $
  * @package categories
  * @subpackage modules
  */
+global $gQueryUserId, $module_rows, $module_params, $categlib, $gContent;
 
 /**
  * required setup
  */
 require_once( CATEGORIES_PKG_PATH.'categ_lib.php');
 
-//test
-//$WhatsRelated=$categlib->get_link_related($_SERVER["REQUEST_URI"]);
-$gBitSmarty->assign_by_ref('WhatsRelated', $WhatsRelated);
+$categories = $categlib->get_object_categories( $gContent->getContentType(), $gContent->getContentId() );
+foreach($categories as $cat)
+	$cats[] = $cat["category_id"];
+
+$content = $categlib->get_related($cats);
+foreach($content as $con) {
 
 
+$gBitSmarty->assign_by_ref('whatsRelated', $whatsRelated);
 ?>
