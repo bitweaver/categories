@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.4 2005/08/24 20:50:00 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.5 2005/10/12 15:13:49 spiderr Exp $ *}
 <div class="floaticon">{bithelp}</div>
 <div class="admin category">
 <div class="header">
@@ -11,9 +11,9 @@
 <div class="boxtitle">{tr}Current category{/tr}: {$catInfo.path}</div>
 <div class="boxcontent">
 
-{if $parent_id ne '0'}
+{if $parent_id ne '1'}
 <div class="navbar above">
-  {tr}go to{/tr} <a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id=0">{tr}top{/tr}</a>
+  {tr}go to{/tr} <a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id=1">{tr}top{/tr}</a>
   {tr}go up{/tr} <a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$catInfo.father}" title="Upper level">{tr}one level{/tr}</a>
 </div>
 {/if}
@@ -159,7 +159,7 @@
   <td>
     <form method="get" action="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php">
     <input type="text" name="find" />
-    <input type="hidden" name="parentId" value="{$parentId|escape}" />
+    <input type="hidden" name="parent_id" value="{$parent_id|escape}" />
     <input type="submit" value="{tr}find{/tr}" name="search" />
     <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
     <input type="hidden" name="find_objects" value="{$find_objects|escape}" />
@@ -170,8 +170,8 @@
 
 <table class="data">
   <tr>
-    <th><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parentId={$parentId}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}name{/tr}</a></th>
-    <th><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parentId={$parentId}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'type_desc'}type_asc{else}type_desc{/if}">{tr}type{/tr}</a></th>
+    <th><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}name{/tr}</a></th>
+    <th><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'type_desc'}type_asc{else}type_desc{/if}">{tr}type{/tr}</a></th>
     <th>{tr}Description{/tr}</th>
     <th>{tr}Remove{/tr}</th>
   </tr>

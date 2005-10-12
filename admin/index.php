@@ -1,17 +1,28 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.4 2005/08/01 18:40:06 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.5 2005/10/12 15:13:49 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.4 2005/08/01 18:40:06 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.5 2005/10/12 15:13:49 spiderr Exp $
 //
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
+
+if( !$gBitSystem->isPackageActive( 'categories' ) ) {
+	$gBitSystem->fatalError( tra("This feature is disabled").": package_categories" );
+}
+
+if (!$gBitUser->hasPermission( 'bit_p_admin_categories' )) {
+	$gBitSystem->fatalError( tra("You dont have permission to use this feature") );
+}
+
+require_once( CATEGORIES_PKG_PATH.'categ_lib.php');
+require_once( CATEGORIES_PKG_PATH.'CatAdminTreeMaker.php' );
 
 if( defined( 'FILEGALS_PKG_PATH' ) ) {
 	include_once( FILEGALS_PKG_PATH.'filegal_lib.php' );
@@ -22,12 +33,8 @@ if( defined( 'POLLS_PKG_PATH' ) ) {
 		$polllib = new PollLib();
 	}
 }
-if( defined( 'CATEGORIES_PKG_PATH' ) ) {
-	include_once( CATEGORIES_PKG_PATH.'categ_lib.php');
-	include_once( CATEGORIES_PKG_PATH.'CatAdminTreeMaker.php' );
-}
 if( defined( 'ARTICLES_PKG_PATH' ) ) {
-	include_once( ARTICLES_PKG_PATH.'art_lib.php' );
+	include_once( ARTICLES_PKG_PATH.'BitArticle.php' );
 }
 if( defined( 'BLOGS_PKG_PATH' ) ) {
 	include_once( BLOGS_PKG_PATH.'BitBlog.php' );
@@ -42,17 +49,9 @@ if( defined( 'TRACKERS_PKG_PATH' ) ) {
 	include_once( TRACKERS_PKG_PATH.'tracker_lib.php' );
 }
 
-if( !$gBitSystem->isPackageActive( 'categories' ) ) {
-	$gBitSystem->fatalError( tra("This feature is disabled").": package_categories" );
-}
-
-if (!$gBitUser->hasPermission( 'bit_p_admin_categories' )) {
-	$gBitSystem->fatalError( tra("You dont have permission to use this feature") );
-}
-
 // Check for parent category or set to 0 if not present
 if (!isset($_REQUEST["parent_id"])) {
-	$_REQUEST["parent_id"] = 0;
+	$_REQUEST["parent_id"] = 1;
 }
 
 $gBitSmarty->assign('parent_id', $_REQUEST["parent_id"]);
@@ -291,7 +290,8 @@ if ( $gBitSystem->isPackageActive( 'trackers' ) ) {
 	$gBitSmarty->assign_by_ref('trackers', $trackers["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'articles' ) ) {
-	$articles = $artlib->list_articles(0, -1, 'title_asc', $find_objects);
+	$art = new BitArticle();
+	$articles = $art->getList( $_REQUEST );
 	$gBitSmarty->assign_by_ref('articles', $articles["data"]);
 }
 if ( $gBitSystem->isPackageActive( 'directory' ) ) {

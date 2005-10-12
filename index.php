@@ -1,20 +1,17 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.2 2005/08/01 18:40:06 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.3 2005/10/12 15:13:49 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.2 2005/08/01 18:40:06 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.3 2005/10/12 15:13:49 spiderr Exp $
 //
 
 // Initialization
 require_once( '../bit_setup_inc.php' );
-
-include_once( CATEGORIES_PKG_PATH.'categ_lib.php');
-include_once( CATEGORIES_PKG_PATH.'CatBrowseTreeMaker.php' );
 
 if ($package_categories != 'y') {
 	$gBitSmarty->assign('msg', tra("This feature is disabled").": package_categories");
@@ -29,9 +26,12 @@ if (!$gBitUser->hasPermission( 'bit_p_view_categories' )) {
 	die;
 }
 
+include_once( CATEGORIES_PKG_PATH.'categ_lib.php');
+include_once( CATEGORIES_PKG_PATH.'CatBrowseTreeMaker.php' );
+
 // Check for parent category or set to 0 if not present
 if (!isset($_REQUEST["parent_id"])) {
-	$_REQUEST["parent_id"] = 0;
+	$_REQUEST["parent_id"] = 1;
 }
 
 $gBitSmarty->assign('parent_id', $_REQUEST["parent_id"]);
@@ -42,10 +42,6 @@ if ($_REQUEST["parent_id"]) {
 
 	$p_info = $categlib->get_category($_REQUEST["parent_id"]);
 	$father = $p_info["parent_id"];
-} else {
-	$path = tra("TOP");
-
-	$father = 0;
 }
 
 $gBitSmarty->assign('path', $path);
@@ -97,7 +93,7 @@ if (isset($_REQUEST["find"])) {
 
 $gBitSmarty->assign('find', $find);
 $gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
-$pagination_url = $gBitSystem->pagination_url($find, $sort_mode, 'parentId', $_REQUEST["parentId"] = 0);
+$pagination_url = $gBitSystem->pagination_url($find, $sort_mode, 'parent_id', $_REQUEST["parent_id"] = 1);
 $gBitSmarty->assign_by_ref('pagination_url', $pagination_url);
 
 if (isset($_REQUEST["deep"]) && $_REQUEST["deep"] == 'on') {

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.11 2005/08/30 22:16:32 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.12 2005/10/12 15:13:49 spiderr Exp $
  *
  * Categories support class
  *
@@ -66,7 +66,7 @@ class CategLib extends BitBase {
 		$info = $this->get_category($category_id);
 		$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $info["category_id"] . '">' . ($info["name"]) . '</a>';
 
-		while ($info["parent_id"] != 0) {
+		while ($info["parent_id"] != $info["category_id"]) {
 			$info = $this->get_category($info["parent_id"]);
 			$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'admin/index.php?parent_id=' . $info["category_id"] . '">' . ($info["name"]) . '</a>' . ' &raquo; ' . $path;
 		}
@@ -79,7 +79,7 @@ class CategLib extends BitBase {
 		$info = $this->get_category($category_id);
 		$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $info["category_id"] . '">' . ($info["name"]) . '</a>';
 
-		while ($info["parent_id"] != 0) {
+		while ($info["parent_id"] != $info["category_id"]) {
 			$info = $this->get_category($info["parent_id"]);
 			$path = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $info["category_id"] . '">' . ($info["name"]) . '</a>' . ' &raquo; ' . $path;
 		}
@@ -193,16 +193,17 @@ class CategLib extends BitBase {
 	}
 
 	function get_category_descendants($category_id) {
-		$query = "select `category_id` from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
+		$query = "select `parent_id`,`category_id` from `".BIT_DB_PREFIX."tiki_categories` where `parent_id`=?";
 
 		$result = $this->mDb->query($query,array((int) $category_id));
 		$ret = array($category_id);
 
 		while ($res = $result->fetchRow()) {
 			$ret[] = $res["category_id"];
-
-			$aux = $this->get_category_descendants($res["category_id"]);
-			$ret = array_merge($ret, $aux);
+			if ($res["parent_id"] != $res["category_id"]) {
+				$aux = $this->get_category_descendants($res["category_id"]);
+				$ret = array_merge($ret, $aux);
+			}
 		}
 
 		$ret = array_unique($ret);
@@ -360,7 +361,7 @@ class CategLib extends BitBase {
 			$path = '';
 			$path['linked'] = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $cat["category_id"] . '">' . $cat["name"] . '</a>';
 			$path['static'] = $cat["name"];
-			while( !empty( $cat["parent_id"] ) ) {
+			while( $cat["parent_id"] != $cat["category_id"] ) {
 				$cat = $this->get_category( $cat["parent_id"] );
 				$path['linked'] = '<a class="categpath" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $cat["category_id"] . '">' . $cat["name"] . '</a> &raquo; ' . $path['linked'];
 				$path['static'] = $cat["name"] . ' &raquo; ' . $path['static'];
@@ -850,15 +851,11 @@ class CategLib extends BitBase {
 	function get_related($categories,$max_rows=10) {
 		if(count($categories)==0) return (array());
 		$quarr=implode(",",array_fill(0,count($categories),'?'));
-		$query="select distinct cdo.`object_type`, cdo.`description`, cdo.`object_id`,cdo.`href` from `".BIT_DB_PREFIX."tiki_categorized_objects` cdo, `".BIT_DB_PREFIX."tiki_category_objects` co  where co.`category_id` in (".$quarr.") and co.`cat_object_id`=cdo.`cat_object_id`";
+		$query="select distinct cdo.`object_id` from `".BIT_DB_PREFIX."tiki_categorized_objects` cdo, `".BIT_DB_PREFIX."tiki_category_objects` co  where co.`category_id` in (".$quarr.") and co.`cat_object_id`=cdo.`cat_object_id`";
 		$result=$this->mDb->query($query,$categories);
 		$ret=array();
 		while ($res = $result->fetchRow()) {
-			if (empty($res["description"])) {
-				$ret[$res["href"]]=$res["type"].": ".$res["obj_id"];
-			} else {
-				$ret[$res["href"]]=$res["type"].": ".$res["description"];
-			}
+				$ret[] = $res["object_id"];
 		}
 		if (count($ret)>$max_rows) {
 			$ret2=array();
