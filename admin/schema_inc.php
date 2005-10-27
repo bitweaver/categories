@@ -3,27 +3,27 @@
 $tables = array(
 
 'tiki_categories' => "
-  category_id I4 AUTO PRIMARY,
-  name C(100),
-  description C(250),
-  parent_id I4,
-  hits I4
+	category_id I4 AUTO PRIMARY,
+	name C(100),
+	description C(250),
+	parent_id I4,
+	hits I4
 ",
 
 'tiki_categorized_objects' => "
-  cat_object_id I4 AUTO PRIMARY,
-  object_type C(20) NOTNULL,
-  object_id I4 NOTNULL,
-  description X,
-  created I8,
-  name C(200),
-  href C(200),
-  hits I4
+	cat_object_id I4 AUTO PRIMARY,
+	object_type C(20) NOTNULL,
+	object_id I4 NOTNULL,
+	description X,
+	created I8,
+	name C(200),
+	href C(200),
+	hits I4
 ",
 
 'tiki_category_objects' => "
-  cat_object_id I4 PRIMARY,
-  category_id I4 PRIMARY
+	cat_object_id I4 PRIMARY,
+	category_id I4 PRIMARY
 "
 
 );
@@ -60,8 +60,8 @@ $gBitInstaller->registerPreferences( CATEGORIES_PKG_NAME, array(
 
 // ### Default UserPermissions
 $gBitInstaller->registerUserPermissions( CATEGORIES_PKG_NAME, array(
-	array('bit_p_admin_categories', 'Can admin categories', 'editors', 'tiki'),
-	array('bit_p_view_categories', 'Can browse categories', 'registered', 'tiki')
+	array('bit_p_admin_categories', 'Can admin categories', 'editors', CATEGORIES_PKG_NAME),
+	array('bit_p_view_categories', 'Can browse categories', 'registered', CATEGORIES_PKG_NAME)
 ) );
 
 $schemaDefault = array();
