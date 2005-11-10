@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.20 2005/10/03 05:20:46 wolff_borg Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.3.2.21 2005/11/10 17:16:07 mej Exp $
  *
  * Categories support class
  *
@@ -970,7 +970,7 @@ function categories_object_edit( &$pObject, &$pParamHash ) {
 
 function categories_object_expunge( &$pObject ) {
 	global $categlib;
-	$categlib->uncategorize_object( $this->mType['content_type_guid'], $this->mContentId );
+	$categlib->uncategorize_object( $pObject->mType['content_type_guid'], $pObject->mContentId );
 }
 
 global $categlib;
