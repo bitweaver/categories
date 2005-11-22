@@ -1,6 +1,6 @@
 <?php
 /** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/CatBrowseTreeMaker.php,v 1.3 2005/10/12 15:13:49 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/CatBrowseTreeMaker.php,v 1.4 2005/11/22 07:25:34 squareing Exp $
  *
  * Categories browse tree
  *
@@ -66,7 +66,9 @@ class CatBrowseTreeMaker extends TreeMaker {
 		$this->itemID = $this->prefix . 'id' . $nodeinfo["id"];
 
 		$this->jsscriptblock .= "setFlipWithSign('" . $this->itemID . "'); ";
-		return '<a class="catname" title="' . tra( 'child categories'). ': ' . $nodeinfo["children"] . ', ' . tra('objects in category'). ': ' . $nodeinfo["objects"] . '" id="flipper' . $this->itemID . '" href="javascript:flipWithSign(\'' . $this->itemID . '\')">[+]</a>';
+		return '<a class="catname" title="' . tra('child categories') . ': ' . $nodeinfo["children"] . ', '
+            . tra('objects in category') . ': ' . $nodeinfo["objects"] . '" id="flipper' . $this->itemID
+            . '" href="javascript:flipWithSign(\'' . $this->itemID . '\')">[+]</a>';
 	}
 
 	//

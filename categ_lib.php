@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.12 2005/10/12 15:13:49 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.13 2005/11/22 07:25:34 squareing Exp $
  *
  * Categories support class
  *
@@ -26,7 +26,7 @@ class CategLib extends BitBase {
 			$findesc = '%' . strtoupper( $find ) . '%';
 			$bindvals=array($findesc,$findesc);
 			$mid = " where (UPPER(`name`) like ? or UPPER(`description`) like ?)";
-		} elseif( $pRootCategoryId ) {
+		} else if ( $pRootCategoryId ) {
 			$mid = " where `parent_id`=? ";
 			$bindvals = $pRootCategoryId;
 		} else {
@@ -278,44 +278,67 @@ class CategLib extends BitBase {
 			$bindvars=array((int) $category_id);
 		}
 
-		$query = "select tbl1.`cat_object_id`,`category_id`,`object_type`,`object_id`,`description`,
-			`created`,`name`,`href`,`hits`
-			from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` and tbl1.`category_id`=? $mid order by tbl2.".$this->mDb->convert_sortmode($sort_mode);
-		$query_cant = "select distinct tbl1.`cat_object_id` from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` and tbl1.`category_id`=? $mid";
+		$query = "SELECT tbl1.`cat_object_id`,`category_id`,`object_type`,`object_id`,`description`,`created`,`name`,`href`,`hits` "
+			. "FROM `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 "
+            . "WHERE tbl1.`cat_object_id`=tbl2.`cat_object_id` AND tbl1.`category_id`=? $mid ORDER BY tbl2."
+            . $this->mDb->convert_sortmode($sort_mode);
+		$query_cant = "SELECT DISTINCT tbl1.`cat_object_id` FROM `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`"
+            . BIT_DB_PREFIX."tiki_categorized_objects` tbl2 WHERE tbl1.`cat_object_id`=tbl2.`cat_object_id` "
+            . "AND tbl1.`category_id`=? $mid";
 		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
 		$result2 = $this->mDb->query($query_cant,$bindvars);
 		$cant = $result2->numRows();
-		$cant2
-			= $this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX."tiki_categorized_objects` tbl2 where tbl1.`cat_object_id`=tbl2.`cat_object_id` and tbl1.`category_id`=? $mid",$bindvars);
+		$cant2 = $this->mDb->getOne("SELECT COUNT(*) FROM `".BIT_DB_PREFIX."tiki_category_objects` tbl1,`".BIT_DB_PREFIX
+                                    . "tiki_categorized_objects` tbl2 WHERE tbl1.`cat_object_id`=tbl2.`cat_object_id` "
+                                    . "AND tbl1.`category_id`=? $mid", $bindvars);
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
+			if( ! $res['name'] ) {
+				$res['name'] = '(no name)';
+			}
+			if( ! $res['description'] ) {
+				$res['description'] = '(no description)';
+			}
 			if( defined( 'BITPAGE_CONTENT_TYPE_GUID' ) && $res['object_type'] == BITPAGE_CONTENT_TYPE_GUID ) {
 				$res['href'] = WIKI_PKG_URL.'index.php?content_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'trackers' ) && preg_match( '/tracker*/i', $res['object_type'] ) ) {
+				$res['type'] = 'Wiki page';
+			} else if( $gBitSystem->isPackageActive( 'trackers' ) && preg_match( '/tracker/i', $res['object_type'] ) ) {
 				$res['href'] = TRACKER_PKG_URL.'view_tracker.php?tracker_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'quizzes' ) && preg_match( '/quiz*/i', $res['object_type'] ) ) {
+				$res['type'] = 'Tracker';
+			} else if( $gBitSystem->isPackageActive( 'quizzes' ) && preg_match( '/quiz/i', $res['object_type'] ) ) {
 				$res['href'] = QUIZZES_PKG_URL.'take_quiz.php?quiz_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'articles' ) && preg_match( '/article*/i', $res['object_type'] ) ) {
+				$res['type'] = 'Quiz';
+			} else if( $gBitSystem->isPackageActive( 'articles' ) && preg_match( '/article/i', $res['object_type'] ) ) {
 				$res['href'] = ARTICLES_PKG_URL.'read.php?article_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'faqs' ) && preg_match( '/faq*/i', $res['object_type'] ) ) {
+				$res['type'] = 'Article';
+			} else if( $gBitSystem->isPackageActive( 'faqs' ) && preg_match( '/faq/i', $res['object_type'] ) ) {
 				$res['href'] = FAQS_PKG_URL.'view.php?faq_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'blogs' ) && preg_match( '/bitblogpost/i', $res['object_type'] ) ) {
+				$res['type'] = 'FAQ';
+			} else if( $gBitSystem->isPackageActive( 'blogs' ) && preg_match( '/blogpost/i', $res['object_type'] ) ) {
 				$res['href'] = BLOGS_PKG_URL.'view_post.php?content_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'blogs' ) && preg_match( '/bitblog/i', $res['object_type'] ) ) {
+				$res['type'] = 'Blog post';
+			} else if( $gBitSystem->isPackageActive( 'blogs' ) && preg_match( '/blog/i', $res['object_type'] ) ) {
 				$res['href'] = BLOGS_PKG_URL.'view.php?blog_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'directory' ) && preg_match( '/directory*/i', $res['object_type'] ) ) {
+				$res['type'] = 'Blog';
+			} else if( $gBitSystem->isPackageActive( 'directory' ) && preg_match( '/directory/i', $res['object_type'] ) ) {
 				$res['href'] = DIRECTORY_PKG_URL.'index.php?parent='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'imagegals' ) && preg_match( '/image*/i', $res['object_type'] ) ) {
+				$res['type'] = 'Directory';
+			} else if( $gBitSystem->isPackageActive( 'imagegals' ) && preg_match( '/image/i', $res['object_type'] ) ) {
 				$res['href'] = IMAGEGALS_PKG_URL.'browse.php?gallery_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'filegals' ) && preg_match( '/file*/i', $res['object_type'] ) ) {
+				$res['type'] = 'Image Gallery';
+			} else if( $gBitSystem->isPackageActive( 'filegals' ) && preg_match( '/file/i', $res['object_type'] ) ) {
 				$res['href'] = FILEGALS_PKG_URL.'list_file_gallery.php?gallery_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'bitforums' ) && preg_match( '/forum*/i', $res['object_type'] ) ) {
+				$res['type'] = 'File Gallery';
+			} else if( $gBitSystem->isPackageActive( 'bitforums' ) && preg_match( '/forum/i', $res['object_type'] ) ) {
 				$res['href'] = BITFORUMS_PKG_URL.'view.php?forum_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'polls' ) && preg_match( '/poll*/i', $res['object_type'] ) ) {
+				$res['type'] = 'Forum';
+			} else if( $gBitSystem->isPackageActive( 'polls' ) && preg_match( '/poll/i', $res['object_type'] ) ) {
 				$res['href'] = POLLS_PKG_URL.'form.php?poll_id='.$res['object_id'];
-			} elseif( $gBitSystem->isPackageActive( 'surveys' ) && preg_match( '/survey*/i', $res['object_type'] ) ) {
+				$res['type'] = 'Poll';
+			} else if( $gBitSystem->isPackageActive( 'surveys' ) && preg_match( '/survey/i', $res['object_type'] ) ) {
 				$res['href'] = SURVEYS_PKG_URL.'survey_stats_survey.php?survey_id='.$res['object_id'];
+				$res['type'] = 'Survey';
 			}
 			$ret[] = $res;
 		}
@@ -350,7 +373,7 @@ class CategLib extends BitBase {
 	function get_category_path($cats) {
 		if( is_numeric( $cats ) ) {
 			$cats = array( array( $cats ) );
-		} elseif( !is_array( current( $cats ) ) ) {
+		} else if( !is_array( current( $cats ) ) ) {
 			$cats = array( $cats );
 		}
 		$catpath['linked'] = '';
@@ -970,7 +993,7 @@ function categories_object_edit( &$pObject, &$pParamHash ) {
 
 function categories_object_expunge( &$pObject ) {
 	global $categlib;
-	$categlib->uncategorize_object( $this->mType['content_type_guid'], $this->mContentId );
+	$categlib->uncategorize_object( $pObject->mType['content_type_guid'], $pObject->mContentId );
 }
 
 global $categlib;

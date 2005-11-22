@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.3 2005/10/12 15:13:49 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.4 2005/11/22 07:25:34 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.3 2005/10/12 15:13:49 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.4 2005/11/22 07:25:34 squareing Exp $
 //
 
 // Initialization
@@ -47,23 +47,32 @@ if ($_REQUEST["parent_id"]) {
 $gBitSmarty->assign('path', $path);
 $gBitSmarty->assign('father', $father);
 
-//$children = $categlib->get_child_categories($_REQUEST["parent_id"]);
-//$gBitSmarty->assign_by_ref('children',$children);
+$children = $categlib->get_child_categories($_REQUEST["parent_id"]);
+$gBitSmarty->assign_by_ref('children',$children);
 
 // Convert $childrens
-//$debugger->var_dump('$children');
+//vd($children);
 $ctall = $categlib->get_all_categories();
 $tree_nodes = array();
 
 foreach ($ctall as $c) {
+	foreach ($children as $ch) {
+		if ($ch['category_id'] == $c['category_id']) {
+			$c = array_merge($c, $ch);
+			break;
+		}
+	}
+	//vd($c);
 	$tree_nodes[] = array(
 		"id" => $c["category_id"],
 		"parent" => $c["parent_id"],
-		"data" => '<a class="catname" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $c["category_id"] . '">' . $c["name"] . '</a><br />'
+		"children" => ((empty($c["children"])) ? (0) : ($c["children"])),
+		"objects" => ((empty($c["objects"])) ? (0) : ($c["objects"])),
+		"data" => '<a class="catname" href="'.CATEGORIES_PKG_URL.'index.php?parent_id=' . $c["category_id"] . '">' . $c["name"] . '</a>&nbsp;'
 	);
 }
 
-//$debugger->var_dump('$tree_nodes');
+//vd($tree_nodes);
 $tm = new CatBrowseTreeMaker("categ");
 $res = $tm->make_tree($_REQUEST["parent_id"], $tree_nodes);
 $gBitSmarty->assign('tree', $res);
@@ -93,7 +102,7 @@ if (isset($_REQUEST["find"])) {
 
 $gBitSmarty->assign('find', $find);
 $gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
-$pagination_url = $gBitSystem->pagination_url($find, $sort_mode, 'parent_id', $_REQUEST["parent_id"] = 1);
+$pagination_url = $gBitSystem->pagination_url($find, $sort_mode, 'parent_id', $_REQUEST["parent_id"]);
 $gBitSmarty->assign_by_ref('pagination_url', $pagination_url);
 
 if (isset($_REQUEST["deep"]) && $_REQUEST["deep"] == 'on') {
