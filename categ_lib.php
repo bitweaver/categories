@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.13 2005/11/22 07:25:34 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.14 2005/12/05 23:52:17 squareing Exp $
  *
  * Categories support class
  *
@@ -40,19 +40,21 @@ class CategLib extends BitBase {
 		$cant = $this->mDb->getOne($query_cant,$bindvals);
 		$ret = array();
 
-		while ($res = $result->fetchRow()) {
-			foreach ($cats as $cat) {
-				if ($res["category_id"] == $cat["category_id"]) {
-					$res["incat"] = 'y';
-				} else {
-					$res["incat"] = 'n';
+		if( $result ) {
+			while ($res = $result->fetchRow()) {
+				foreach ($cats as $cat) {
+					if ($res["category_id"] == $cat["category_id"]) {
+						$res["incat"] = 'y';
+					} else {
+						$res["incat"] = 'n';
+					}
 				}
+				$categpath = $this->get_category_path( $res );
+				$res['root_category_id'] = $categpath['root_category_id'];
+				$res["categpath"] = $categpath['linked'];
+				$res["categpath_static"] = $categpath['static'];
+				$ret[$categpath['linked']] = $res;
 			}
-			$categpath = $this->get_category_path( $res );
-			$res['root_category_id'] = $categpath['root_category_id'];
-			$res["categpath"] = $categpath['linked'];
-			$res["categpath_static"] = $categpath['static'];
-			$ret[$categpath['linked']] = $res;
 		}
 		ksort($ret);
 		$retval = array();
