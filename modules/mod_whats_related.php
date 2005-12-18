@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/modules/mod_whats_related.php,v 1.4 2005/10/12 15:13:49 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/modules/mod_whats_related.php,v 1.5 2005/12/18 22:28:16 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: mod_whats_related.php,v 1.4 2005/10/12 15:13:49 spiderr Exp $
+ * $Id: mod_whats_related.php,v 1.5 2005/12/18 22:28:16 squareing Exp $
  * @package categories
  * @subpackage modules
  */
@@ -20,6 +20,7 @@ if (isset($gContent)) {
 	require_once( CATEGORIES_PKG_PATH.'categ_lib.php');
 
 	$categories = $categlib->get_object_categories( $gContent->getContentType(), $gContent->getContentId() );
+	$cats = array();
 	foreach($categories as $cat)
 		$cats[] = $cat["category_id"];
 

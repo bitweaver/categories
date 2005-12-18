@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.5 2005/10/12 15:13:49 spiderr Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.6 2005/12/18 22:28:16 squareing Exp $ *}
 <div class="floaticon">{bithelp}</div>
 <div class="admin category">
 <div class="header">
@@ -181,7 +181,7 @@
     <td><a href="{$objects[ix].href}" title="{$objects[ix].name}">{$objects[ix].name|truncate:25:"(...)":true}</a></td>
     <td>{$objects[ix].object_type}</td>
     <td>{$objects[ix].description}</td>
-    <td align="right"><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}&amp;removeObject={$objects[ix].cat_object_id}&amp;fromCateg={$parent_id}" title="{tr}Delete item from category?{/tr}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to remove {$objects[ix].name} from {$catInfo.name|escape}?{/tr}')">{biticon ipackage="liberty" iname="delete_small" iexplain="remove"}</a></td>
+    <td align="right"><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}&amp;removeObject={$objects[ix].cat_object_id}&amp;fromCateg={$parent_id}" title="{tr}Delete item from category?{/tr}" onclick="return confirm('{tr}Are you sure you want to remove {$objects[ix].name} from {$catInfo.name|escape}?{/tr}')">{biticon ipackage="liberty" iname="delete_small" iexplain="remove"}</a></td>
   </tr>
   {sectionelse}
   <tr class="norecords">
