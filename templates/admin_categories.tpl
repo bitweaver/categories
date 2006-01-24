@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.6 2005/12/18 22:28:16 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.7 2006/01/24 21:48:53 squareing Exp $ *}
 <div class="floaticon">{bithelp}</div>
 <div class="admin category">
 <div class="header">
@@ -73,7 +73,7 @@
 <form action="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php" method="post">
 <input type="hidden" name="parent_id" value="{$parent_id|escape}" />
   <table class="panel">
-  {if $gBitSystem->isFeatureActive( 'feature_wiki' )}
+  {if $gBitSystem->isPackageActive( 'wiki' )}
     <tr>
       <td>{tr}page{/tr}:</td>
       <td><select name="class_content[]" multiple="multiple" size="5">{section name=ix loop=$pages}<option value="{$pages[ix].content_id}">{$pages[ix].title|escape|truncate:40:"(...)":true}</option>{/section}</select></td>
