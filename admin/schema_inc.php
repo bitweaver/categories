@@ -21,7 +21,7 @@ $tables = array(
 	hits I4
 ",
 
-'categories_objects' => "
+'categories_objects_map' => "
 	cat_object_id I4 PRIMARY,
 	category_id I4 PRIMARY
 "
