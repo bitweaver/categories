@@ -10,7 +10,7 @@ $tables = array(
 	hits I4
 ",
 
-'categories_objects' => "
+'categorized_objects' => "
 	cat_object_id I4 AUTO PRIMARY,
 	object_type C(20) NOTNULL,
 	object_id I4 NOTNULL,
