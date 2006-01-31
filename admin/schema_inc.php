@@ -2,7 +2,7 @@
 
 $tables = array(
 
-'tiki_categories' => "
+'categories' => "
 	category_id I4 AUTO PRIMARY,
 	name C(100),
 	description C(250),
@@ -10,7 +10,7 @@ $tables = array(
 	hits I4
 ",
 
-'tiki_categorized_objects' => "
+'categories_objects' => "
 	cat_object_id I4 AUTO PRIMARY,
 	object_type C(20) NOTNULL,
 	object_id I4 NOTNULL,
@@ -21,7 +21,7 @@ $tables = array(
 	hits I4
 ",
 
-'tiki_category_objects' => "
+'categories_objects' => "
 	cat_object_id I4 PRIMARY,
 	category_id I4 PRIMARY
 "
@@ -45,10 +45,10 @@ $gBitInstaller->registerPackageInfo( CATEGORIES_PKG_NAME, array(
 
 // ### Indexes
 $indices = array (
-	'tiki_catz_obj_obj_idx' => array( 'table' => 'tiki_categorized_objects', 'cols' => 'object_id', 'opts' => NULL ),
-	'tiki_catz_obj_type_idx' => array( 'table' => 'tiki_categorized_objects', 'cols' => 'object_type', 'opts' => NULL ),
-	'tiki_cat_obj_cat_idx' => array( 'table' => 'tiki_category_objects', 'cols' => 'category_id', 'opts' => NULL ),
-	'tiki_cat_obj_cat_obj_idx' => array( 'table' => 'tiki_category_objects', 'cols' => 'cat_object_id', 'opts' => NULL )
+	'tiki_catz_obj_obj_idx' => array( 'table' => 'categorized_objects', 'cols' => 'object_id', 'opts' => NULL ),
+	'tiki_catz_obj_type_idx' => array( 'table' => 'categorized_objects', 'cols' => 'object_type', 'opts' => NULL ),
+	'tiki_cat_obj_cat_idx' => array( 'table' => 'category_objects', 'cols' => 'category_id', 'opts' => NULL ),
+	'tiki_cat_obj_cat_obj_idx' => array( 'table' => 'category_objects', 'cols' => 'cat_object_id', 'opts' => NULL )
 );
 $gBitInstaller->registerSchemaIndexes( CATEGORIES_PKG_NAME, $indices );
 
@@ -67,10 +67,10 @@ $gBitInstaller->registerUserPermissions( CATEGORIES_PKG_NAME, array(
 $schemaDefault = array();
 global $gBitDbType;
 if ( $gBitDbType == 'mssql' ) {
-	$schemaDefault[] = "SET IDENTITY_INSERT `".BIT_DB_PREFIX."tiki_categories` ON";
+	$schemaDefault[] = "SET IDENTITY_INSERT `".BIT_DB_PREFIX."categories` ON";
 }
 
-$schemaDefault[] = "INSERT INTO `".BIT_DB_PREFIX."tiki_categories` (`category_id`, `name`, `description`, `parent_id`, `hits` ) VALUES ( 0, '".tra("TOP")."', '', 0, 0 )";
+$schemaDefault[] = "INSERT INTO `".BIT_DB_PREFIX."categories` (`category_id`, `name`, `description`, `parent_id`, `hits` ) VALUES ( 0, '".tra("TOP")."', '', 0, 0 )";
 
 $gBitInstaller->registerSchemaDefault( CATEGORIES_PKG_NAME, $schemaDefault );
 
