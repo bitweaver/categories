@@ -4,6 +4,20 @@ global $gBitSystem, $gUpgradeFrom, $gUpgradeTo;
 
 $upgrades = array(
 
+
+	'BWR1' => array(
+		'BWR2' => array(
+// de-tikify tables
+array( 'DATADICT' => array(
+	array( 'RENAMETABLE' => array(
+		'tiki_categories' => 'categories',
+		'tiki_categorized_objects' => 'categorized_objects',
+		'tiki_categories_objects' => 'categories_objects',
+	)),
+)),
+		)
+	),
+
 'BONNIE' => array(
 	'BWR1' => array(
 
