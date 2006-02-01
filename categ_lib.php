@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.16 2006/02/01 10:50:46 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.17 2006/02/01 18:40:49 squareing Exp $
  *
  * Categories support class
  *
@@ -356,9 +356,9 @@ class CategLib extends BitBase {
 	function get_object_categories($type, $obj_id) {
 		$ret = array();
 		if ( $type and $obj_id ) {
-			$query = "select tc.`category_id`,tc.`name`,tco.`cat_object_id`,tc.`parent_id` ";
-			$query.= " from `".BIT_DB_PREFIX."categories_objects_map` tco, `".BIT_DB_PREFIX."categories_objects` tto, `".BIT_DB_PREFIX."categories` tc
-        	where tco.`cat_object_id`=tto.`cat_object_id` and tco.`category_id`=tc.`category_id` and `object_type`=? and `object_id`=?";
+			$query = "select lc.`category_id`,lc.`name`,tco.`cat_object_id`,lc.`parent_id` ";
+			$query.= " from `".BIT_DB_PREFIX."categories_objects_map` tco, `".BIT_DB_PREFIX."categories_objects` tto, `".BIT_DB_PREFIX."categories` lc
+        	where tco.`cat_object_id`=tto.`cat_object_id` and tco.`category_id`=lc.`category_id` and `object_type`=? and `object_id`=?";
 
 			$bindvars=array($type,(string)$obj_id);
 			if( $result = $this->mDb->query($query,$bindvars) ) {
@@ -832,9 +832,9 @@ class CategLib extends BitBase {
 	function get_all_categories_ext() {
 		$ret = array();
 
-		$query = "SELECT tc.`category_id`, COUNT(`cat_object_id`) AS `objects`,`name`,`parent_id`,`description`,`hits`
-				  FROM `".BIT_DB_PREFIX."categories` tc LEFT OUTER JOIN `".BIT_DB_PREFIX."categories_objects_map` tco ON(tc.`category_id`=tco.`category_id`)
-				  GROUP BY tc.`category_id`,`parent_id`,`name`,`description`,`hits` order by `name`";
+		$query = "SELECT lc.`category_id`, COUNT(`cat_object_id`) AS `objects`,`name`,`parent_id`,`description`,`hits`
+				  FROM `".BIT_DB_PREFIX."categories` lc LEFT OUTER JOIN `".BIT_DB_PREFIX."categories_objects_map` tco ON(lc.`category_id`=tco.`category_id`)
+				  GROUP BY lc.`category_id`,`parent_id`,`name`,`description`,`hits` order by `name`";
 		$result = $this->mDb->query($query,array());
 
 		while ($res = $result->fetchRow()) {
