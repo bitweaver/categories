@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.15 2006/01/31 20:16:39 bitweaver Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.16 2006/02/01 10:50:46 squareing Exp $
  *
  * Categories support class
  *
@@ -606,7 +606,7 @@ class CategLib extends BitBase {
 	// FUNCTIONS TO CATEGORIZE SPECIFIC OBJECTS ////
 	function categorize_page( $pContentId, $categId ) {
 		require_once( WIKI_PKG_PATH.'BitPage.php' );
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized( BITPAGE_CONTENT_TYPE_GUID, $pContentId );
 
 		if (!$cat_object_id) {
@@ -621,7 +621,7 @@ class CategLib extends BitBase {
 	}
 
 	function categorize_tracker($tracker_id, $category_id) {
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 
 		$cat_object_id = $this->is_categorized('tracker', $tracker_id);
 
@@ -637,7 +637,7 @@ class CategLib extends BitBase {
 	}
 
 	function categorize_quiz($quiz_id, $category_id) {
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('quiz', $quiz_id);
 
 		if (!$cat_object_id) {
@@ -653,7 +653,7 @@ class CategLib extends BitBase {
 	}
 
 	function categorize_article($article_id, $category_id) {
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('article', $article_id);
 
 		if (!$cat_object_id) {
@@ -668,7 +668,7 @@ class CategLib extends BitBase {
 	}
 
 	function categorize_faq($faq_id, $category_id) {
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('faq', $faq_id);
 
 		if (!$cat_object_id) {
@@ -685,7 +685,7 @@ class CategLib extends BitBase {
 	function categorize_blog($blog_id, $category_id) {
 		require_once( BLOGS_PKG_PATH.'BitBlog.php' );
 		global $gBlog;
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('blog', $blog_id);
 
 		if (!$cat_object_id) {
@@ -701,7 +701,7 @@ class CategLib extends BitBase {
 
 	function categorize_blog_post($post_id, $category_id, $purge=false) {
 		global $gBlog;
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('blogpost', $post_id);
 
 		if (!$cat_object_id) {
@@ -720,7 +720,7 @@ class CategLib extends BitBase {
 	}
 
 	function categorize_directory($directory_id, $category_id) {
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('directory', $directory_id);
 
 		if (!$cat_object_id) {
@@ -737,7 +737,7 @@ class CategLib extends BitBase {
 	}
 
 	function categorize_gallery($gallery_id, $category_id) {
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('image gallery', $gallery_id);
 
 		if (!$cat_object_id) {
@@ -752,7 +752,7 @@ class CategLib extends BitBase {
 	}
 
 	function categorize_file_gallery($gallery_id, $category_id) {
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('file gallery', $gallery_id);
 
 		if (!$cat_object_id) {
@@ -767,7 +767,7 @@ class CategLib extends BitBase {
 	}
 
 	function categorize_forum($forum_id, $category_id) {
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('forum', $forum_id);
 
 		if (!$cat_object_id) {
@@ -782,7 +782,7 @@ class CategLib extends BitBase {
 	}
 
 	function categorize_poll($poll_id, $category_id) {
-		// Check if we already have this object in the categorized_objects page
+		// Check if we already have this object in the categories_objects page
 		$cat_object_id = $this->is_categorized('poll', $poll_id);
 
 		if (!$cat_object_id) {

@@ -10,7 +10,7 @@ $tables = array(
 	hits I4
 ",
 
-'categorized_objects' => "
+'categories_objects' => "
 	cat_object_id I4 AUTO PRIMARY,
 	object_type C(20) NOTNULL,
 	object_id I4 NOTNULL,
@@ -45,10 +45,10 @@ $gBitInstaller->registerPackageInfo( CATEGORIES_PKG_NAME, array(
 
 // ### Indexes
 $indices = array (
-	'tiki_catz_obj_obj_idx' => array( 'table' => 'categorized_objects', 'cols' => 'object_id', 'opts' => NULL ),
-	'tiki_catz_obj_type_idx' => array( 'table' => 'categorized_objects', 'cols' => 'object_type', 'opts' => NULL ),
-	'tiki_cat_obj_cat_idx' => array( 'table' => 'category_objects', 'cols' => 'category_id', 'opts' => NULL ),
-	'tiki_cat_obj_cat_obj_idx' => array( 'table' => 'category_objects', 'cols' => 'cat_object_id', 'opts' => NULL )
+	'cat_obj_obj_idx' => array( 'table' => 'categories_objects', 'cols' => 'object_id', 'opts' => NULL ),
+	'cat_obj_type_idx' => array( 'table' => 'categories_objects', 'cols' => 'object_type', 'opts' => NULL ),
+	'cat_obj_map_cat_idx' => array( 'table' => 'categories_objects_map', 'cols' => 'category_id', 'opts' => NULL ),
+	'cat_obj_map_cat_obj_idx' => array( 'table' => 'categories_objects_map', 'cols' => 'cat_object_id', 'opts' => NULL )
 );
 $gBitInstaller->registerSchemaIndexes( CATEGORIES_PKG_NAME, $indices );
 

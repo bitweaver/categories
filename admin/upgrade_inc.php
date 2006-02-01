@@ -11,8 +11,8 @@ $upgrades = array(
 array( 'DATADICT' => array(
 	array( 'RENAMETABLE' => array(
 		'tiki_categories' => 'categories',
-		'tiki_categorized_objects' => 'categorized_objects',
-		'tiki_categories_objects' => 'categories_objects',
+		'tiki_categorized_objects' => 'categories_objects',
+		'tiki_categories_objects' => 'categories_objects_map',
 	)),
 )),
 		)
