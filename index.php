@@ -1,30 +1,20 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.1.1.1.2.3 2005/11/11 06:03:35 mej Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.1.1.1.2.4 2006/02/03 12:36:26 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.1.1.1.2.3 2005/11/11 06:03:35 mej Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.1.1.1.2.4 2006/02/03 12:36:26 squareing Exp $
 //
 
 // Initialization
 require_once( '../bit_setup_inc.php' );
 
-if ($package_categories != 'y') {
-	$gBitSmarty->assign('msg', tra("This feature is disabled").": package_categories");
-
-	$gBitSystem->display( 'error.tpl' );
-	die;
-}
-
-if (!$gBitUser->hasPermission( 'bit_p_view_categories' )) {
-	$gBitSmarty->assign('msg', tra("You dont have permission to use this feature"));
-	$gBitSystem->display( 'error.tpl' );
-	die;
-}
+$gBitSystem->verifyPackage( 'categories' );
+$gBitSystem->verifyPermission( 'bit_p_view_categories' );
 
 include_once( CATEGORIES_PKG_PATH.'categ_lib.php');
 include_once( CATEGORIES_PKG_PATH.'CatBrowseTreeMaker.php' );
