@@ -37,9 +37,6 @@ foreach( array_keys( $tables ) AS $tableName ) {
 $gBitInstaller->registerPackageInfo( CATEGORIES_PKG_NAME, array(
 	'description' => "Using this package you can categorise any object on this site, allowing for grouping of similar objects. It is also possible to allocate specific themes to categories.",
 	'license' => '<a href="http://www.gnu.org/licenses/licenses.html#LGPL">LGPL</a>',
-	'version' => '0.1',
-	'state' => 'alpha',
-	'dependencies' => '',
 ) );
 
 
