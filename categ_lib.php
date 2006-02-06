@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.18 2006/02/06 00:06:12 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.19 2006/02/06 22:56:40 squareing Exp $
  *
  * Categories support class
  *
@@ -909,7 +909,7 @@ function categories_categorize( &$pObject, &$pParamHash ) {
 	}
 	$catObjType = $pObject->getContentType();
 	$cat_desc = NULL;
-//	$cat_desc = ($gBitSystem->isFeatureActive( 'feature_wiki_description' ) && !empty( $_REQUEST["description"] )) ? substr($_REQUEST["description"],0,200) : '';
+//	$cat_desc = ($gBitSystem->isFeatureActive( 'wiki_description' ) && !empty( $_REQUEST["description"] )) ? substr($_REQUEST["description"],0,200) : '';
 
 	$gBitSmarty->assign('cat_categorize', 'n');
 	$categlib->uncategorize($catObjType, $catObjectId );
