@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.6 2006/02/04 19:04:34 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.7 2006/02/06 00:06:12 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.6 2006/02/04 19:04:34 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.7 2006/02/06 00:06:12 squareing Exp $
 //
 
 // Initialization
@@ -80,7 +80,7 @@ if (!isset($_REQUEST["offset"])) {
 }
 if (isset($_REQUEST['page'])) {
 	$page = &$_REQUEST['page'];
-	$offset = ($page - 1) * $maxRecords;
+	$offset = ($page - 1) * $max_records;
 }
 $gBitSmarty->assign_by_ref('offset', $offset);
 
@@ -96,29 +96,29 @@ $pagination_url = $gBitSystem->pagination_url($find, $sort_mode, 'parent_id', $_
 $gBitSmarty->assign_by_ref('pagination_url', $pagination_url);
 
 if (isset($_REQUEST["deep"]) && $_REQUEST["deep"] == 'on') {
-	$objects = $categlib->list_category_objects_deep($_REQUEST["parent_id"], $offset, $maxRecords, $sort_mode, $find);
+	$objects = $categlib->list_category_objects_deep($_REQUEST["parent_id"], $offset, $max_records, $sort_mode, $find);
 	$gBitSmarty->assign('deep', 'on');
 } else {
-	$objects = $categlib->list_category_objects($_REQUEST["parent_id"], $offset, $maxRecords, $sort_mode, $find);
+	$objects = $categlib->list_category_objects($_REQUEST["parent_id"], $offset, $max_records, $sort_mode, $find);
 	$gBitSmarty->assign('deep', 'off');
 }
 
 $gBitSmarty->assign_by_ref('objects', $objects["data"]);
 $gBitSmarty->assign_by_ref('cantobjects', $objects["cant"]);
 
-$cant_pages = ceil($objects["cant2"] / $maxRecords);
+$cant_pages = ceil($objects["cant2"] / $max_records);
 $gBitSmarty->assign_by_ref('cant_pages', $cant_pages);
-$gBitSmarty->assign('actual_page', 1 + ($offset / $maxRecords));
+$gBitSmarty->assign('actual_page', 1 + ($offset / $max_records));
 
-if ($objects["cant2"] > ($offset + $maxRecords)) {
-	$gBitSmarty->assign('next_offset', $offset + $maxRecords);
+if ($objects["cant2"] > ($offset + $max_records)) {
+	$gBitSmarty->assign('next_offset', $offset + $max_records);
 } else {
 	$gBitSmarty->assign('next_offset', -1);
 }
 
 // If offset is > 0 then prev_offset
 if ($offset > 0) {
-	$gBitSmarty->assign('prev_offset', $offset - $maxRecords);
+	$gBitSmarty->assign('prev_offset', $offset - $max_records);
 } else {
 	$gBitSmarty->assign('prev_offset', -1);
 }

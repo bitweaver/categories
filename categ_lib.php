@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.17 2006/02/01 18:40:49 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.18 2006/02/06 00:06:12 squareing Exp $
  *
  * Categories support class
  *
@@ -19,7 +19,7 @@ class CategLib extends BitBase {
 		BitBase::BitBase();
 	}
 
-	function list_all_categories($offset, $maxRecords, $sort_mode = 'name_asc', $find, $type, $objid, $pRootCategoryId=NULL ) {
+	function list_all_categories($offset, $max_records, $sort_mode = 'name_asc', $find, $type, $objid, $pRootCategoryId=NULL ) {
 		$cats = $this->get_object_categories($type, $objid);
 
 		if ($find) {
@@ -36,7 +36,7 @@ class CategLib extends BitBase {
 
 		$query = "select * from `".BIT_DB_PREFIX."categories` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
 		$query_cant = "select count(*) from `".BIT_DB_PREFIX."categories` $mid";
-		$result = $this->mDb->query($query,$bindvals,$maxRecords,$offset);
+		$result = $this->mDb->query($query,$bindvals,$max_records,$offset);
 		$cant = $this->mDb->getOne($query_cant,$bindvals);
 		$ret = array();
 
@@ -212,7 +212,7 @@ class CategLib extends BitBase {
 		return $ret;
 	}
 
-	function list_category_objects_deep($category_id, $offset, $maxRecords, $sort_mode = 'page_name_asc', $find) {
+	function list_category_objects_deep($category_id, $offset, $max_records, $sort_mode = 'page_name_asc', $find) {
 
 		$des = $this->get_category_descendants($category_id);
 		if (count($des)>0) {
@@ -240,7 +240,7 @@ class CategLib extends BitBase {
 
 		$query = "select * from `".BIT_DB_PREFIX."categories_objects_map` cato1,`".BIT_DB_PREFIX."categories_objects` cato2 where cato1.`cat_object_id`=cato2.`cat_object_id` $cond $mid order by ".$this->mDb->convert_sortmode($sort_mode);
 		$query_cant = "select distinct cato1.`cat_object_id` from `".BIT_DB_PREFIX."categories_objects_map` cato1,`".BIT_DB_PREFIX."categories_objects` cato2 where cato1.`cat_object_id`=cato2.`cat_object_id` $cond $mid";
-		$result = $this->mDb->query($query,$des,$maxRecords,$offset);
+		$result = $this->mDb->query($query,$des,$max_records,$offset);
 		$result2 = $this->mDb->query($query_cant,$des);
 		$cant = $result2->numRows();
 		$cant2
@@ -263,7 +263,7 @@ class CategLib extends BitBase {
 		return $retval;
 	}
 
-	function list_category_objects($category_id, $offset, $maxRecords, $sort_mode = 'page_name_asc', $find) {
+	function list_category_objects($category_id, $offset, $max_records, $sort_mode = 'page_name_asc', $find) {
 		global $gBitSystem;
 
 		if ($find) {
@@ -287,7 +287,7 @@ class CategLib extends BitBase {
 		$query_cant = "SELECT DISTINCT cato1.`cat_object_id` FROM `".BIT_DB_PREFIX."categories_objects_map` cato1,`"
             . BIT_DB_PREFIX."categories_objects` cato2 WHERE cato1.`cat_object_id`=cato2.`cat_object_id` "
             . "AND cato1.`category_id`=? $mid";
-		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+		$result = $this->mDb->query($query,$bindvars,$max_records,$offset);
 		$result2 = $this->mDb->query($query_cant,$bindvars);
 		$cant = $result2->numRows();
 		$cant2 = $this->mDb->getOne("SELECT COUNT(*) FROM `".BIT_DB_PREFIX."categories_objects_map` cato1,`".BIT_DB_PREFIX
@@ -468,7 +468,7 @@ class CategLib extends BitBase {
 		$title = '';
 		$find = "";
 		$offset = 0;
-		$maxRecords = 500;
+		$max_records = 500;
 		$count = 0;
 		$sort = 'name_asc';
 
@@ -488,7 +488,7 @@ class CategLib extends BitBase {
 
 			// array with objects in category
 			$objectcat = array();
-			$objectcat = $this->list_category_objects( $cat['category_id'], $offset, $maxRecords, $sort, $find);
+			$objectcat = $this->list_category_objects( $cat['category_id'], $offset, $max_records, $sort, $find);
 
 			foreach ($objectcat["data"] as $obj) {
 				$type = $obj["object_type"];
