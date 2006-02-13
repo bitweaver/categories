@@ -54,8 +54,8 @@ $gBitInstaller->registerSchemaIndexes( CATEGORIES_PKG_NAME, $indices );
 
 // ### Default Preferences
 $gBitInstaller->registerPreferences( CATEGORIES_PKG_NAME, array(
-	array('', 'feature_categoryobjects','n'),
-	array('', 'feature_categorypath','n')
+	array('', 'categories_objects','n'),
+	array('', 'categories_path','n')
 ) );
 
 // ### Default UserPermissions

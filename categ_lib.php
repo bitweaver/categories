@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.19 2006/02/06 22:56:40 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.20 2006/02/13 10:06:10 squareing Exp $
  *
  * Categories support class
  *
@@ -940,12 +940,12 @@ function categories_display( &$pObject ) {
 	$cats = $categlib->get_object_categories( $pObject->getContentType(), $pObject->mContentId );
 	// Display category path or not (like {catpath()})
 	if ( $cats ) {
-		if( $gBitSystem->isFeatureActive( 'feature_categorypath' ) ) {
+		if( $gBitSystem->isFeatureActive( 'categories_path' ) ) {
 			$display_catpath = $categlib->get_category_path($cats);
 			$gBitSmarty->assign('display_catpath',$display_catpath);
 		}
 		// Display current category objects or not (like {category()})
-		if( $gBitSystem->isFeatureActive( 'feature_categoryobjects' ) ) {
+		if( $gBitSystem->isFeatureActive( 'categories_objects' ) ) {
 			$display_catobjects = $categlib->get_categoryobjects( $cats );
 			$gBitSmarty->assign( 'display_catobjects',$display_catobjects );
 		}
