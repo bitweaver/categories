@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.8 2006/02/09 14:52:46 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.9 2006/03/25 20:48:31 squareing Exp $ *}
 <div class="floaticon">{bithelp}</div>
 <div class="admin category">
 <div class="header">
@@ -83,14 +83,14 @@
   {if $gBitSystem->isPackageActive( 'articles' )}
     <tr>
       <td>{tr}article{/tr}:</td>
-      <td><select name="article_id">{section name=ix loop=$articles}<option value="{$articles[ix].article_id|escape}">{$articles[ix].title|truncate:40:"(...)":true}</option>{/section}</select></td>
+      <td><select name="article_id">{section name=ix loop=$articles}<option value="{$articles[ix].article_id|escape}">{$articles[ix].title|escape|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addarticle" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'blogs' )}
     <tr>
       <td>{tr}blog{/tr}:</td>
-      <td><select name="blog_id">{section name=ix loop=$blogs}<option value="{$blogs[ix].blog_id|escape}">{$blogs[ix].title|truncate:40:"(...)":true}</option>{/section}</select></td>
+      <td><select name="blog_id">{section name=ix loop=$blogs}<option value="{$blogs[ix].blog_id|escape}">{$blogs[ix].title|escape|truncate:40:"(...)":true}</option>{/section}</select></td>
       <td><input type="submit" name="addblog" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
