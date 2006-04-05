@@ -12,7 +12,7 @@ array( 'DATADICT' => array(
 	array( 'RENAMETABLE' => array(
 		'tiki_categories' => 'categories',
 		'tiki_categorized_objects' => 'categories_objects',
-		'tiki_categories_objects' => 'categories_objects_map',
+		'tiki_category_objects' => 'categories_objects_map',
 	)),
 )),
 		)
