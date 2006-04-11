@@ -1,20 +1,20 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.7 2006/02/06 00:06:12 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.8 2006/04/11 13:04:01 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.7 2006/02/06 00:06:12 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.8 2006/04/11 13:04:01 squareing Exp $
 //
 
 // Initialization
 require_once( '../bit_setup_inc.php' );
 
 $gBitSystem->verifyPackage( 'categories' );
-$gBitSystem->verifyPermission( 'bit_p_view_categories' );
+$gBitSystem->verifyPermission( 'p_categories_view' );
 
 include_once( CATEGORIES_PKG_PATH.'categ_lib.php');
 include_once( CATEGORIES_PKG_PATH.'CatBrowseTreeMaker.php' );

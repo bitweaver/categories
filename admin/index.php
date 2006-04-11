@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.6 2006/02/06 00:06:12 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.7 2006/04/11 13:04:02 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.6 2006/02/06 00:06:12 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.7 2006/04/11 13:04:02 squareing Exp $
 //
 
 // Initialization
@@ -17,7 +17,7 @@ if( !$gBitSystem->isPackageActive( 'categories' ) ) {
 	$gBitSystem->fatalError( tra("This feature is disabled").": package_categories" );
 }
 
-if (!$gBitUser->hasPermission( 'bit_p_admin_categories' )) {
+if (!$gBitUser->hasPermission( 'p_categories_admin' )) {
 	$gBitSystem->fatalError( tra("You dont have permission to use this feature") );
 }
 

@@ -60,8 +60,8 @@ $gBitInstaller->registerPreferences( CATEGORIES_PKG_NAME, array(
 
 // ### Default UserPermissions
 $gBitInstaller->registerUserPermissions( CATEGORIES_PKG_NAME, array(
-	array('bit_p_admin_categories', 'Can admin categories', 'editors', CATEGORIES_PKG_NAME),
-	array('bit_p_view_categories', 'Can browse categories', 'registered', CATEGORIES_PKG_NAME)
+	array('p_categories_admin', 'Can admin categories', 'editors', CATEGORIES_PKG_NAME),
+	array('p_categories_view', 'Can browse categories', 'registered', CATEGORIES_PKG_NAME)
 ) );
 
 $schemaDefault = array();

@@ -23,7 +23,7 @@ if( $gBitSystem->isPackageActive( 'categories' ) ) {
 	// creates the main categories object
 	require_once( CATEGORIES_PKG_PATH.'categ_lib.php' );
 
-	if($gBitUser->hasPermission( 'bit_p_view_categories' ) ) {
+	if($gBitUser->hasPermission( 'p_categories_view' ) ) {
 		$gBitSystem->registerAppMenu( CATEGORIES_PKG_NAME, ucfirst( CATEGORIES_PKG_DIR ), CATEGORIES_PKG_URL.'index.php', 'bitpackage:categories/menu_categories.tpl', CATEGORIES_PKG_NAME );
 	}
 }

@@ -1,7 +1,7 @@
 {strip}
 {jstab title="Categorize"}
 	{legend legend="Categorize"}
-		{if $gBitSystem->isPackageActive( 'categories' ) and (count($categories) gt 0 or $gBitUser->hasPermission( 'bit_p_admin_categories' ))}
+		{if $gBitSystem->isPackageActive( 'categories' ) and (count($categories) gt 0 or $gBitUser->hasPermission( 'p_categories_admin' ))}
 			<div class="row">
 				{formlabel label="Pick Categories"}
 				{forminput}
@@ -11,7 +11,7 @@
 							{$categories[ix].categpath}
 						</label><br />
 					{/section}
-					{if $gBitUser->hasPermission( 'bit_p_admin_categories' )}
+					{if $gBitUser->hasPermission( 'p_categories_admin' )}
 						<br /><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php">{tr}Admin categories{/tr}</a>
 					{/if}
 				{/forminput}
