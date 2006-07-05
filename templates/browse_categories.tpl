@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/browse_categories.tpl,v 1.3 2005/10/12 15:13:49 spiderr Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/browse_categories.tpl,v 1.4 2006/07/05 18:51:33 squareing Exp $ *}
 <div class="floaticon">{bithelp}</div>
 <div class="display category">
 <div class="header">
@@ -54,5 +54,5 @@
 {pagination parent_id=$parent_id}
 {/if}
 
-</div>
+</div><!-- end .body -->
 </div>
