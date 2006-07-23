@@ -1,5 +1,5 @@
 <?php
-global $gBitSystem;
+global $gBitSystem, $gLibertySystem, $gBitUser;
 
 $registerHash = array(
 	'package_name' => 'categories',
