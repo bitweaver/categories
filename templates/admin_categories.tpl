@@ -1,8 +1,8 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.11 2006/09/10 17:30:35 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.12 2006/09/10 17:33:16 squareing Exp $ *}
 {strip}
 {form legend="Category Settings"}
 	<input type="hidden" name="page" value="{$page}" />
-	{foreach from=$formFeaturesHelp key=feature item=output}
+	{foreach from=$formFeaturesBit key=feature item=output}
 		<div class="row">
 			{formlabel label=`$output.label` for=$feature}
 			{forminput}
