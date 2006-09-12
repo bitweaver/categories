@@ -24,7 +24,12 @@ if( $gBitSystem->isPackageActive( 'categories' ) ) {
 	require_once( CATEGORIES_PKG_PATH.'categ_lib.php' );
 
 	if($gBitUser->hasPermission( 'p_categories_view' ) ) {
-		$gBitSystem->registerAppMenu( CATEGORIES_PKG_NAME, ucfirst( CATEGORIES_PKG_DIR ), CATEGORIES_PKG_URL.'index.php', 'bitpackage:categories/menu_categories.tpl', CATEGORIES_PKG_NAME );
+		$menuHash = array(
+			'package_name'  => CATEGORIES_PKG_NAME,
+			'index_url'     => CATEGORIES_PKG_URL.'index.php',
+			'menu_template' => 'bitpackage:categories/menu_categories.tpl',
+		);
+		$gBitSystem->registerAppMenu( $menuHash );
 	}
 }
 ?>
