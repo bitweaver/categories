@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/categories_admin.tpl,v 1.1 2006/09/10 17:30:35 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_categories/templates/categories_admin.tpl,v 1.2 2006/09/14 20:23:48 squareing Exp $ *}
 <div class="floaticon">{bithelp}</div>
 <div class="admin category">
 <div class="header">
@@ -8,7 +8,7 @@
 <div class="body">
 
 <div class="admin box">
-<div class="boxtitle">{tr}Current category{/tr}: {$catInfo.path}</div>
+<h3 class="boxtitle">{tr}Current category{/tr}: {$catInfo.path}</h3>
 <div class="boxcontent">
 
 {if $parent_id ne '1'}
@@ -52,7 +52,7 @@
 </form>
 
 <div class="admin box">
-<div class="boxtitle">{tr}Current category{/tr}: {$catInfo.path}</div>
+<h3 class="boxtitle">{tr}Current category{/tr}: {$catInfo.path}</h3>
 
 <h2>{tr}Add objects to category{/tr}: {$catInfo.path}</h2>
 <table class="find">
