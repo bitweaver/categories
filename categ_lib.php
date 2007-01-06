@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.20 2006/02/13 10:06:10 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.21 2007/01/06 09:46:11 squareing Exp $
  *
  * Categories support class
  *
@@ -34,7 +34,7 @@ class CategLib extends BitBase {
 			$mid = "";
 		}
 
-		$query = "select * from `".BIT_DB_PREFIX."categories` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
+		$query = "select * from `".BIT_DB_PREFIX."categories` $mid order by ".$this->mDb->convertSortmode($sort_mode);
 		$query_cant = "select count(*) from `".BIT_DB_PREFIX."categories` $mid";
 		$result = $this->mDb->query($query,$bindvals,$max_records,$offset);
 		$cant = $this->mDb->getOne($query_cant,$bindvals);
@@ -238,7 +238,7 @@ class CategLib extends BitBase {
 			$mid = "";
 		}
 
-		$query = "select * from `".BIT_DB_PREFIX."categories_objects_map` cato1,`".BIT_DB_PREFIX."categories_objects` cato2 where cato1.`cat_object_id`=cato2.`cat_object_id` $cond $mid order by ".$this->mDb->convert_sortmode($sort_mode);
+		$query = "select * from `".BIT_DB_PREFIX."categories_objects_map` cato1,`".BIT_DB_PREFIX."categories_objects` cato2 where cato1.`cat_object_id`=cato2.`cat_object_id` $cond $mid order by ".$this->mDb->convertSortmode($sort_mode);
 		$query_cant = "select distinct cato1.`cat_object_id` from `".BIT_DB_PREFIX."categories_objects_map` cato1,`".BIT_DB_PREFIX."categories_objects` cato2 where cato1.`cat_object_id`=cato2.`cat_object_id` $cond $mid";
 		$result = $this->mDb->query($query,$des,$max_records,$offset);
 		$result2 = $this->mDb->query($query_cant,$des);
@@ -283,7 +283,7 @@ class CategLib extends BitBase {
 		$query = "SELECT cato1.`cat_object_id`,`category_id`,`object_type`,`object_id`,`description`,`created`,`name`,`href`,`hits` "
 			. "FROM `".BIT_DB_PREFIX."categories_objects_map` cato1,`".BIT_DB_PREFIX."categories_objects` cato2 "
             . "WHERE cato1.`cat_object_id`=cato2.`cat_object_id` AND cato1.`category_id`=? $mid ORDER BY cato2."
-            . $this->mDb->convert_sortmode($sort_mode);
+            . $this->mDb->convertSortmode($sort_mode);
 		$query_cant = "SELECT DISTINCT cato1.`cat_object_id` FROM `".BIT_DB_PREFIX."categories_objects_map` cato1,`"
             . BIT_DB_PREFIX."categories_objects` cato2 WHERE cato1.`cat_object_id`=cato2.`cat_object_id` "
             . "AND cato1.`category_id`=? $mid";
@@ -546,7 +546,7 @@ class CategLib extends BitBase {
 		}
 		$sort_mode = 'created_desc';
 		$query = "select cato2.`object_id` from `".BIT_DB_PREFIX."categories_objects_map` cato1,`".BIT_DB_PREFIX."categories_objects` cato2 ";
-		$query.= " where cato1.`cat_object_id`=cato2.`cat_object_id` and created > ? and `category_id`=? $mid order by cato2.".$this->mDb->convert_sortmode($sort_mode);
+		$query.= " where cato1.`cat_object_id`=cato2.`cat_object_id` and created > ? and `category_id`=? $mid order by cato2.".$this->mDb->convertSortmode($sort_mode);
 		$result = $this->mDb->query($query,$bindvars);
 		$rs = $result->GetArray();
 		$ret = array();
