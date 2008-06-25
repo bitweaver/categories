@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.8 2006/04/11 13:04:01 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.9 2008/06/25 22:21:08 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.8 2006/04/11 13:04:01 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.9 2008/06/25 22:21:08 spiderr Exp $
 //
 
 // Initialization
@@ -124,6 +124,6 @@ if ($offset > 0) {
 }
 
 // Display the template
-$gBitSystem->display( 'bitpackage:categories/browse_categories.tpl');
+$gBitSystem->display( 'bitpackage:categories/browse_categories.tpl', NULL, array( 'display_mode' => 'display' ));
 
 ?>
