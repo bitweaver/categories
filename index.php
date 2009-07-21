@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.9 2008/06/25 22:21:08 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.10 2009/07/21 18:37:08 dansut Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.9 2008/06/25 22:21:08 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.10 2009/07/21 18:37:08 dansut Exp $
 //
 
 // Initialization
@@ -92,8 +92,8 @@ if (isset($_REQUEST["find"])) {
 
 $gBitSmarty->assign('find', $find);
 $gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
-$pagination_url = $gBitSystem->pagination_url($find, $sort_mode, 'parent_id', $_REQUEST["parent_id"]);
-$gBitSmarty->assign_by_ref('pagination_url', $pagination_url);
+//$pagination_url = $gBitSystem->pagination_url($find, $sort_mode, 'parent_id', $_REQUEST["parent_id"]);
+//$gBitSmarty->assign_by_ref('pagination_url', $pagination_url);
 
 if (isset($_REQUEST["deep"]) && $_REQUEST["deep"] == 'on') {
 	$objects = $categlib->list_category_objects_deep($_REQUEST["parent_id"], $offset, $max_records, $sort_mode, $find);
