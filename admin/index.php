@@ -1,17 +1,17 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.11 2009/10/01 14:16:59 wjames5 Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.12 2010/02/08 21:27:22 wjames5 Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See below for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See http://www.gnu.org/copyleft/lesser.html for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.11 2009/10/01 14:16:59 wjames5 Exp $
+// $Header: /cvsroot/bitweaver/_bit_categories/admin/index.php,v 1.12 2010/02/08 21:27:22 wjames5 Exp $
 //
 
 // Initialization
-require_once( '../../bit_setup_inc.php' );
+require_once( '../../kernel/setup_inc.php' );
 
 if( !$gBitSystem->isPackageActive( 'categories' ) ) {
 	$gBitSystem->fatalError( tra("This feature is disabled").": package_categories" );
