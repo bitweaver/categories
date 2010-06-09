@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/admin_categories.tpl,v 1.12 2006/09/10 17:33:16 squareing Exp $ *}
+{* $Header$ *}
 {strip}
 {form legend="Category Settings"}
 	<input type="hidden" name="page" value="{$page}" />

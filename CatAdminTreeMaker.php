@@ -1,6 +1,6 @@
 <?php
 /** \file
- * $Header: /cvsroot/bitweaver/_bit_categories/CatAdminTreeMaker.php,v 1.3 2005/07/17 17:36:01 squareing Exp $
+ * $Header$
  *
  * Categories browse tree
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_categories/categ_lib.php,v 1.21 2007/01/06 09:46:11 squareing Exp $
+ * $Header$
  *
  * Categories support class
  *

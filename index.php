@@ -1,13 +1,13 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.13 2010/02/08 21:27:22 wjames5 Exp $
+// $Header$
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See below for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See http://www.gnu.org/copyleft/lesser.html for details.
 
 //
-// $Header: /cvsroot/bitweaver/_bit_categories/index.php,v 1.13 2010/02/08 21:27:22 wjames5 Exp $
+// $Header$
 //
 
 // Initialization

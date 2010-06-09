@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/categories_admin.tpl,v 1.3 2006/09/15 07:54:56 squareing Exp $ *}
+{* $Header$ *}
 <div class="floaticon">{bithelp}</div>
 <div class="admin category">
 <div class="header">

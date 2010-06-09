@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/modules/mod_whats_related.tpl,v 1.2 2005/10/12 15:13:49 spiderr Exp $ *}
+{* $Header$ *}
 {strip}
 {bitmodule title="$moduleTitle" name="whats_related"}
 	<ul>

@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_categories/templates/browse_categories.tpl,v 1.5 2006/09/14 20:23:48 squareing Exp $ *}
+{* $Header$ *}
 <div class="floaticon">{bithelp}</div>
 <div class="display category">
 <div class="header">
