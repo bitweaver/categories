@@ -15,10 +15,6 @@
  */
 class CategLib extends BitBase {
 
-	function CategLib() {
-		parent::__construct();
-	}
-
 	function list_all_categories($offset, $max_records, $sort_mode = 'name_asc', $find, $type, $objid, $pRootCategoryId=NULL ) {
 		$cats = $this->get_object_categories($type, $objid);
 
