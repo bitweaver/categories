@@ -181,7 +181,7 @@
     <td><a href="{$objects[ix].href}" title="{$objects[ix].name}">{$objects[ix].name|truncate:25:"(...)":true}</a></td>
     <td>{$objects[ix].object_type}</td>
     <td>{$objects[ix].description}</td>
-    <td align="right"><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}&amp;removeObject={$objects[ix].cat_object_id}&amp;fromCateg={$parent_id}" title="{tr}Delete item from category?{/tr}" onclick="return confirm('{tr}Are you sure you want to remove {$objects[ix].name} from {$catInfo.name|escape}?{/tr}')">{biticon ipackage="icons" iname="edit-delete" iexplain="remove"}</a></td>
+    <td align="right"><a href="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php?parent_id={$parent_id}&amp;removeObject={$objects[ix].cat_object_id}&amp;fromCateg={$parent_id}" title="{tr}Delete item from category?{/tr}" onclick="return confirm('{tr}Are you sure you want to remove {$objects[ix].name} from {$catInfo.name|escape}?{/tr}')">{booticon iname="icon-trash" ipackage="icons" iexplain="remove"}</a></td>
   </tr>
   {sectionelse}
   <tr class="norecords">
