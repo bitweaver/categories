@@ -14,7 +14,7 @@
     <td><input type="text" name="find" value="{$find|escape}" size="35" /></td>
     <td>{tr}deep{/tr}</td>
     <td><input type="checkbox" name="deep" {if $deep eq 'on'}checked="checked"{/if}/></td>
-    <td><input type="submit" value="{tr}find{/tr}" name="search" />
+    <td><input type="submit" class="btn" value="{tr}find{/tr}" name="search" />
     <input type="hidden" name="parent_id" value="{$parent_id|escape}" />
     <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" /></td>
   </tr>
