@@ -29,6 +29,6 @@ if (isset($gContent)) {
 		$tmp = $gContent->getLibertyObject( $con );
 		$whatsRelated[] = $tmp->getDisplayLink($tmp->getTitle(), $tmp->mInfo);
 	}
-	$gBitSmarty->assign_by_ref('whatsRelated', $whatsRelated);
+	$_template->tpl_vars['whatsRelated'] = new Smarty_variable( $whatsRelated);
 }
 ?>
