@@ -37,7 +37,7 @@
 
 <h2>{tr}Objects{/tr} ({$cantobjects})</h2>
 {if $cantobjects > 0}
-<table class="data">
+<table class="table data">
 <tr><th>{tr}Link{/tr}</th><th>{tr}Description{/tr}</th></tr>
 {cycle values="even,odd" print=false}
 {section name=ix loop=$objects}
