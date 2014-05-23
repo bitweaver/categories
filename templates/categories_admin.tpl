@@ -47,7 +47,7 @@
   </td></tr>
  <tr><td>{tr}Name{/tr}</td><td><input type="text" name="name" value="{$name|escape}" /></td></tr>
  <tr><td>{tr}Description{/tr}</td><td><textarea rows="4" cols="16" name="description">{$description|escape}</textarea></td></tr>
- <tr class="panelsubmitrow"><td colspan="2"><input type="submit" class="btn" name="save" value="{tr}Save{/tr}" /></td></tr>
+ <tr class="panelsubmitrow"><td colspan="2"><input type="submit" class="btn btn-default" name="save" value="{tr}Save{/tr}" /></td></tr>
 </table>
 </form>
 
@@ -61,7 +61,7 @@
     <form method="get" action="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php">
     <input type="text" name="find_objects" />
     <input type="hidden" name="parent_id" value="{$parent_id|escape}" />
-    <input type="submit" class="btn" value="{tr}filter{/tr}" name="search_objects" />
+    <input type="submit" class="btn btn-default" value="{tr}filter{/tr}" name="search_objects" />
     <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
     <input type="hidden" name="offset" value="{$offset|escape}" />
     <input type="hidden" name="find" value="{$find|escape}" />
@@ -77,77 +77,77 @@
     <tr>
       <td>{tr}page{/tr}:</td>
       <td><select name="class_content[]" multiple="multiple" size="5">{section name=ix loop=$pages}<option value="{$pages[ix].content_id}">{$pages[ix].title|escape|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addpage" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addpage" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'articles' )}
     <tr>
       <td>{tr}article{/tr}:</td>
       <td><select name="article_id">{section name=ix loop=$articles}<option value="{$articles[ix].article_id|escape}">{$articles[ix].title|escape|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addarticle" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addarticle" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'blogs' )}
     <tr>
       <td>{tr}blog{/tr}:</td>
       <td><select name="blog_id">{section name=ix loop=$blogs}<option value="{$blogs[ix].blog_id|escape}">{$blogs[ix].title|escape|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addblog" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addblog" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'directory' )}
     <tr>
       <td>{tr}directory{/tr}:</td>
       <td><select name="directoryId">{section name=ix loop=$directories}<option value="{$directories[ix].category_id|escape}">{$directories[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="adddirectory" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="adddirectory" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'galleries' )}
     <tr>
       <td>{tr}image gal{/tr}:</td>
       <td><select name="gallery_id">{section name=ix loop=$galleries}<option value="{$galleries[ix].gallery_id|escape}">{$galleries[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addgallery" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addgallery" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'file_galleries' )}
     <tr>
       <td>{tr}file gal{/tr}:</td>
       <td><select name="file_gallery_id">{section name=ix loop=$file_galleries}<option value="{$file_galleries[ix].gallery_id|escape}">{$file_galleries[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addfilegallery" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addfilegallery" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'tiki_forums' )}
     <tr>
       <td>{tr}forum{/tr}:</td>
       <td><select name="forum_id">{section name=ix loop=$forums}<option value="{$forums[ix].forum_id|escape}">{$forums[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addforum" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addforum" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'polls' )}
     <tr>
       <td>{tr}poll{/tr}:</td>
       <td><select name="poll_id">{section name=ix loop=$polls}<option value="{$polls[ix].poll_id|escape}">{$polls[ix].title|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addpoll" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addpoll" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'faqs' )}
     <tr>
       <td>{tr}faq{/tr}:</td>
       <td><select name="faq_id">{section name=ix loop=$faqs}<option value="{$faqs[ix].faq_id|escape}">{$faqs[ix].title|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addfaq" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addfaq" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'trackers' )}
    <tr>
       <td>{tr}tracker{/tr}:</td>
       <td><select name="tracker_id">{section name=ix loop=$trackers}<option value="{$trackers[ix].tracker_id|escape}">{$trackers[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addtracker" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addtracker" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   {if $gBitSystem->isPackageActive( 'quizzes' )}
     <tr>
       <td>{tr}quiz{/tr}:</td>
       <td><select name="quiz_id">{section name=ix loop=$quizzes}<option value="{$quizzes[ix].quiz_id|escape}">{$quizzes[ix].name|truncate:40:"(...)":true}</option>{/section}</select></td>
-      <td><input type="submit" class="btn" name="addquiz" value="{tr}add{/tr}" /></td>
+      <td><input type="submit" class="btn btn-default" name="addquiz" value="{tr}add{/tr}" /></td>
     </tr>
   {/if}
   </table>
@@ -160,7 +160,7 @@
     <form method="get" action="{$smarty.const.CATEGORIES_PKG_URL}admin/index.php">
     <input type="text" name="find" />
     <input type="hidden" name="parent_id" value="{$parent_id|escape}" />
-    <input type="submit" class="btn" value="{tr}find{/tr}" name="search" />
+    <input type="submit" class="btn btn-default" value="{tr}find{/tr}" name="search" />
     <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
     <input type="hidden" name="find_objects" value="{$find_objects|escape}" />
     </form>
